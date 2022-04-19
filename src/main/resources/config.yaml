@@ -1,0 +1,24 @@
+#browser options: CHROME, FIREFOX, IE, EDGE
+#testdata options: test1, test2, test3
+
+testedBrowser: CHROME
+testedDataSet: test1
+
+testData:
+  test1:
+    envName: test1
+    appUrl: http://146.59.32.4/
+
+
+  test2:
+    envName: test2
+    appUrl: https://seleniumui.moderntester.pl/form.php
+
+
+  test3:
+    envName: test3
+    appUrl: https://seleniumui.moderntester.pl/form.php
+
+
+
+---

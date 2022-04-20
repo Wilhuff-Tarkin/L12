@@ -14,11 +14,12 @@ public class ProductMiniaturePage extends BasePage {
 
 
     public ProductMiniaturePage(WebDriver driver) {
+        super(driver);
+
         PageFactory.initElements(driver, this);
     }
 
-    public ProductMiniaturePage() {
-    }
+
 
 
 }

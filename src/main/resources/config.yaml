@@ -8,16 +8,18 @@ testData:
   test1:
     envName: test1
     appUrl: http://146.59.32.4/
-
+    timout: 5
 
   test2:
     envName: test2
     appUrl: https://seleniumui.moderntester.pl/form.php
+    timout: 5
 
 
   test3:
     envName: test3
     appUrl: https://seleniumui.moderntester.pl/form.php
+    timout: 5
 
 
 

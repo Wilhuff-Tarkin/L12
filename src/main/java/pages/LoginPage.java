@@ -15,6 +15,8 @@ public class LoginPage extends BasePage {
     private WebElement createUserButton;
 
     public LoginPage(WebDriver driver) {
+
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 

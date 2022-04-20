@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.HomePage;
 
+import java.time.Duration;
 import java.util.Locale;
 
 public class TestBase {
@@ -24,7 +26,6 @@ public class TestBase {
     private static Browser loadedBrowser;
     private static YamlModel model;
     public WebDriver driver;
-
 
 
     @BeforeAll
@@ -60,8 +61,6 @@ public class TestBase {
         driver = browser.getDriver(model.getTestedBrowser());
         driver.get(testEnvironment.returnValueAsString("appUrl"));
         setWindowOptions(driver);
-
-
     }
 
     private void setWindowOptions(WebDriver driver) {

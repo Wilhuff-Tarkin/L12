@@ -2,10 +2,6 @@ package test;
 
 import base.TestBase;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +9,6 @@ import pages.CategoryPage;
 import pages.HeaderPage;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,21 +16,14 @@ public class Categories extends TestBase {
 
     private static final Logger log = LoggerFactory.getLogger("categories");
 
-    HeaderPage headerPage = new HeaderPage(driver);
-    List <WebElement> categories = headerPage.getCategoriesLabels();
-    List <WebElement> subCategories = headerPage.getSubCategoriesLabels();
 
-//    public static Stream <Arguments> provideCategories() {
-//        return Stream.of(
-//                Arguments.of(categories),
-//                Arguments.of(subCategories)
-//        );
-//    }
-
-    @ParameterizedTest
-    @MethodSource("provideCategories")
+    @Test
     void categoriesTest() {
+
         HeaderPage headerPage = new HeaderPage(driver);
+        List<WebElement> categories = headerPage.getCategoriesLabels();
+        List<WebElement> subCategories = headerPage.getSubCategoriesLabels();
+
 
         for (int i = 0; i < headerPage.getCategoriesLabels().size(); i++) {
 
@@ -58,7 +45,7 @@ public class Categories extends TestBase {
 
     private void numberOfProductsShouldBeDisplayed(CategoryPage page) {
         int numberOfProductsDisplayed = page.getProductsOnCategoryPage().size();
-        int indicatedNumberOfProducts = Integer.parseInt(page.getThereAreXProducts().getText());
+        int indicatedNumberOfProducts = Integer.parseInt(page.getThereAreXProducts().getText()); //
         assertThat("not as expected", numberOfProductsDisplayed == indicatedNumberOfProducts);
     }
 

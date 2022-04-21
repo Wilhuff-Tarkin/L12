@@ -10,6 +10,7 @@ testData:
     appUrl: http://146.59.32.4/
     timout: 5
 
+
   test2:
     envName: test2
     appUrl: https://seleniumui.moderntester.pl/form.php

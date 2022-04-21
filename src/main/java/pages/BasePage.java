@@ -16,6 +16,8 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
+
+
     //todo wziac timeout z konfiguracji
 
     public BasePage(WebDriver driver) {
@@ -23,5 +25,7 @@ public class BasePage {
         PageFactory.initElements(driver, this);
         wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
+
+
 
 }

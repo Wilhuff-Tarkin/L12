@@ -45,8 +45,8 @@ public class Categories extends TestBase {
 
     private void numberOfProductsShouldBeDisplayed(CategoryPage page) {
         int numberOfProductsDisplayed = page.getProductsOnCategoryPage().size();
-        int indicatedNumberOfProducts = Integer.parseInt(page.getThereAreXProducts().getText()); //
-        assertThat("not as expected", numberOfProductsDisplayed == indicatedNumberOfProducts);
+        String indicatedNumberOfProducts = page.getThereAreXProducts().getText().replaceAll("[^0-9]", "");
+        assertThat("not as expected", numberOfProductsDisplayed == Integer.parseInt(indicatedNumberOfProducts));
     }
 
 

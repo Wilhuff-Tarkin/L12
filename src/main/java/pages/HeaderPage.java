@@ -44,10 +44,11 @@ public class HeaderPage extends BasePage {
     @FindBy(css = ".category [data-depth='0']")
     private List<WebElement> categoriesLabels = new ArrayList<>();
 
-    private List <String> mainCategories = new ArrayList<>();
 
-    private List<String> subCategories = new ArrayList<>();
-
+//
+//    private List <String> mainCategories = new ArrayList<>();
+//
+//    private List<String> subCategories = new ArrayList<>();
 
 
     @FindBy(css = "#ui-id-1")
@@ -67,14 +68,14 @@ public class HeaderPage extends BasePage {
     }
 
 
-    public List<String> setMainCategories() {
-
-        for (WebElement categoryName : categoriesLabels) {
-            mainCategories.add(categoryName.getText());
-            logger.info("Adding item " + categoryName.getText() + " to the list");
-        }
-        return mainCategories;
-    }
+//    public List<String> setMainCategories() {
+//
+//        for (WebElement categoryName : categoriesLabels) {
+//            mainCategories.add(categoryName.getText());
+//            logger.info("Adding item " + categoryName.getText() + " to the list");
+//        }
+//        return mainCategories;
+//    }
 
     private HeaderPage setAllProductsFromDropdown() {
         for (WebElement product : dropDown) {
@@ -95,10 +96,22 @@ public class HeaderPage extends BasePage {
         loupeButton.click();
     }
 
-    public void readDropDown() {
+    //    public void readDropDown() {
+//    }
+//
+//    public List<WebElement> getSubCategoriesLabels() {
+//
+//
+//
+//        for (int i = 0; i < categoriesLabels.size(); i++) {
+//
+//            categoriesLabels.get(i).click();
+//            CategoryPage page = new CategoryPage(driver);
+//            List <WebElement> subcats = page.getSubCategories();
+//
+//            f
+//
+//
+//        }
+//        return categoriesLabels;
     }
-
-    public List<WebElement> getSubCategoriesLabels() {
-        return null;
-    }
-}

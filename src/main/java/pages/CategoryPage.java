@@ -40,6 +40,10 @@ public class CategoryPage extends BasePage{
     @FindBy(css = "#js-product-list-top p")
     private WebElement ThereAreXProducts;
 
+    @Getter
+    @FindBy(css = ".category-sub-menu a")
+    private List <WebElement> subCategories;
+
 
     public CategoryPage(WebDriver driver) {
         super(driver);
@@ -68,4 +72,7 @@ public class CategoryPage extends BasePage{
         return this;
     }
 
+    public boolean checkIfCategoryContainsSubCategories() {
+                return subCategories.size()>0;
+    }
 }

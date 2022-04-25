@@ -2,6 +2,7 @@ package pages;
 
 import ch.qos.logback.core.joran.conditional.ThenAction;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -13,6 +14,8 @@ import java.lang.invoke.SwitchPoint;
 public class FilterPage extends BasePage {
 
 
+
+
     @Getter
     @FindBy(css = ".material-icons.close")
     private WebElement closeFilterBtn;
@@ -22,11 +25,11 @@ public class FilterPage extends BasePage {
     private WebElement firstFilterOnPage;
 
     @Getter
-    @FindBy(css = "#slider-range_35648 > a:nth-of-type(1)")
+    @FindBy(css = "div[id^='slider-range'] > a:nth-of-type(1)")
     private WebElement sliderHandleLeft;
 
     @Getter
-    @FindBy(css = "#slider-range_35648 > a:nth-of-type(2)")
+    @FindBy(css = "div[id^='slider-range'] > a:nth-of-type(2)")
     private WebElement sliderHandleRight;
 
     @Getter
@@ -41,6 +44,7 @@ public class FilterPage extends BasePage {
         int minPriceValue = getPriceScope(0);
         int maxPriceValue = getPriceScope(1);
 
+
         if (from > minPriceValue && from < maxPriceValue) {
             operatePriceSlider(sliderHandleLeft, from, SliderDirection.RIGHT);
         }
@@ -48,6 +52,7 @@ public class FilterPage extends BasePage {
         if (to < maxPriceValue && to > from) {
             operatePriceSlider(sliderHandleRight, to, SliderDirection.LEFT);
         }
+
 
     }
 
@@ -71,7 +76,13 @@ public class FilterPage extends BasePage {
                     moveSliderByOffset(offset, sliderHandle);
                     postion = getPriceScope(1);
                 }
+
+
         }
+
+//
+//        closeFilterBtn = driver.findElement(By.cssSelector(".material-icons.close"));
+//        closeFilterBtn.click();
     }
 
     private void moveSliderByOffset(int offset, WebElement sliderHandle) {

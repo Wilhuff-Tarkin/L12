@@ -1,22 +1,24 @@
 package configuration.model;
 
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import pages.BasePage;
 
 public class ProductModel {
 
+    @Getter
     private String name;
 
-    public ProductModel(WebElement product) {
-        name = product.findElement(By.cssSelector(".product-description .h3.product-title")).getText();
-    }
+    @Getter
+    private float price;
 
-    public String getName() {
-        return name;
-    }
+
+
+
 
     @Override
     public String toString() {
-        return "Product named as " + name;
+        return "Product named as " + name + "price is " + price;
     }
 }

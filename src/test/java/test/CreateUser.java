@@ -10,7 +10,7 @@ public class CreateUser {
     @Test
     void shouldCreateUser() {
 
-        System.out.println(UserFactory.getRandomUser().toString());
+        System.out.println(UserFactory.getRandomUser());
 
 
     }

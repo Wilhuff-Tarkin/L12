@@ -14,7 +14,7 @@ import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class Categories extends TestBase {
 
     private static final Logger log = LoggerFactory.getLogger("categories");
@@ -26,17 +26,22 @@ public class Categories extends TestBase {
         List<WebElement> categories = headerPage.getCategoriesLabels();
 
         for (int i = 0; i < categories.size(); i++) {
-
-            String categoryLabel = categories.get(i).getText();
-            log.info(">>>> Testing: " + categoryLabel.toUpperCase(Locale.ROOT));
-
-            categories.get(i).click();
-            CategoryPage page = new CategoryPage(driver);
-
-            nameOfCategoryShouldMatchHeader(categoryLabel, page);
-            filtersSideMenuShouldBeDisplayed(categoryLabel, page);
-            numberOfProductsShouldBeDisplayed(categoryLabel, page);
+            verifyCategory(categories.get(i));
         }
+    }
+
+    private void verifyCategory(WebElement categoryLink) {
+        String categoryLabel = categoryLink.getText();
+        log.info(">>>> Testing: " + categoryLabel.toUpperCase(Locale.ROOT));
+
+        categoryLink.click();
+        CategoryPage page = new CategoryPage(driver);
+
+        nameOfCategoryShouldMatchHeader(categoryLabel, page);
+        filtersSideMenuShouldBeDisplayed(categoryLabel, page);
+        numberOfProductsShouldBeDisplayed(categoryLabel, page);
+        driver.navigate().back();
+
     }
 
     @Test
@@ -46,33 +51,28 @@ public class Categories extends TestBase {
         log.info("Found " + categories.size() + " main categories");
 
         for (int i = 0; i < categories.size(); i++) {
-        categories.get(i).click();
+
+            categories.get(i).click();
             CategoryPage page = new CategoryPage(driver);
-            log.info("Looking for subcategories in " + page.getHeader().getText());
+            log.info(">>>> Looking for subcategories in " + page.getHeader().getText());
 
             if (page.checkIfCategoryContainsSubCategories()) {
                 List<WebElement> subCategories = page.getSubCategories();
                 int subCatSize = subCategories.size();
-                log.info("Found: " + subCatSize + " subcategories");
+                log.info(">>>> Found: " + subCatSize + " subcategories");
 
                 for (int j = 0; j < subCatSize; j++) {
-                    WebElement subCategory = subCategories.get(j);
-                    String categoryLabel = subCategory.getText();
-                    subCategory.click();
-                    CategoryPage subPage = new CategoryPage(driver);
-                    log.info(">>>> Testing: " + subPage.getHeader().getText().toUpperCase(Locale.ROOT));
-                    nameOfCategoryShouldMatchHeader(categoryLabel, subPage);
-                    filtersSideMenuShouldBeDisplayed(categoryLabel, subPage);
-                    numberOfProductsShouldBeDisplayed(categoryLabel, subPage);
-                    driver.navigate().back();
+                    verifyCategory(subCategories.get(j));
                 }
+            } else {
+                log.info(">>>> No subcategories found in " + page.getHeader().getText());
             }
         }
     }
 
     private void numberOfProductsShouldBeDisplayed(String categoryLabel, CategoryPage page) {
         log.info("Checking number of products for category " + categoryLabel.toUpperCase(Locale.ROOT));
-        int numberOfProductsDisplayed = page.getProductsOnCategoryPage().size();
+        int numberOfProductsDisplayed = page.getProductsSectionPage().getProductsList().size();
         String indicatedNumberOfProducts = page.getThereAreXProducts().getText().replaceAll("[^0-9]", "");
         assertThat("not as expected", numberOfProductsDisplayed == Integer.parseInt(indicatedNumberOfProducts));
     }

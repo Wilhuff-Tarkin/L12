@@ -2,6 +2,7 @@ package pages;
 
 import configuration.model.ProductModel;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,11 +17,19 @@ public class CategoryPage extends BasePage{
     private FilterPage filterPage;
 
     @Getter
-    @FindBy(css = ".product")
-    private List<WebElement> productsOnCategoryPage = new ArrayList<>();
+    private ProductsSectionPage productsSectionPage;
+
+//    @Getter
+//    @FindBy(css = ".product")
+//    private List<WebElement> productsOnCategoryPage = new ArrayList<>();
 
 
-    private List<ProductModel> productsList = new ArrayList<>();
+//    public List<ProductMiniaturePage> getProductsList() {
+//        setAllProducts();
+//        return productsList;
+//    }
+//
+//    private List<ProductMiniaturePage> productsList = new ArrayList<>();
 
 
     @FindBy(css = "#js-product-list-header .h1")
@@ -40,6 +49,10 @@ public class CategoryPage extends BasePage{
     @FindBy(css = "#js-product-list-top p")
     private WebElement ThereAreXProducts;
 
+//    @Getter
+//    @FindBy(css = "#js-product-list-top p")
+//    private WebElement ThereAreXProducts;
+
     @Getter
     @FindBy(css = ".category-sub-menu a")
     private List <WebElement> subCategories;
@@ -48,6 +61,7 @@ public class CategoryPage extends BasePage{
     public CategoryPage(WebDriver driver) {
         super(driver);
         filterPage = new FilterPage(driver);
+        productsSectionPage = new ProductsSectionPage(driver);
         PageFactory.initElements(driver, this);
     }
 
@@ -61,16 +75,14 @@ public class CategoryPage extends BasePage{
                 '}';
     }
 
-    public CategoryPage setAllProducts() {
-        //todo tu mozna dodac jakiegos waita na element
-//        productsOnHome.get(0);
-
-        for (WebElement product : productsOnCategoryPage) {
-            productsList.add(new ProductModel(product));
-        }
-//        log.info("All products on page set");
-        return this;
-    }
+//    public CategoryPage setAllProducts() {
+//
+//        for (WebElement product : productsOnCategoryPage) {
+//            String name = product.findElement(By.cssSelector(".product .product-title")).getText();
+//            productsList.add(new ProductMiniaturePage(driver, product));
+//        }
+//        return this;
+//    }
 
     public boolean checkIfCategoryContainsSubCategories() {
                 return subCategories.size()>0;

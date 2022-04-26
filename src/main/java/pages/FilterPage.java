@@ -3,6 +3,7 @@ package pages;
 import ch.qos.logback.core.joran.conditional.ThenAction;
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -66,14 +67,17 @@ public class FilterPage extends BasePage {
             case RIGHT:
                 while (postion != price) {
                     offset = 10;
-                    moveSliderByOffset(offset, sliderHandle);
+//                    moveSliderByOffset(offset, sliderHandle);
+                    moveSliderBySendKeys(direction, sliderHandleLeft);
                     postion = getPriceScope(0);
 
                 }
             case LEFT:
                 while (postion != price) {
                     offset = -10;
-                    moveSliderByOffset(offset, sliderHandle);
+//                    moveSliderByOffset(offset, sliderHandle);
+                    moveSliderBySendKeys(direction, sliderHandleRight);
+
                     postion = getPriceScope(1);
                 }
 
@@ -84,11 +88,27 @@ public class FilterPage extends BasePage {
 //        closeFilterBtn = driver.findElement(By.cssSelector(".material-icons.close"));
 //        closeFilterBtn.click();
     }
+//
+//    private void moveSliderByOffset(int offset, WebElement sliderHandle) {
+//        Actions builder = new Actions(driver);
+//        builder.dragAndDropBy(sliderHandle, offset, 0).perform();
+//        wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
+//    }
 
-    private void moveSliderByOffset(int offset, WebElement sliderHandle) {
-        Actions builder = new Actions(driver);
-        builder.dragAndDropBy(sliderHandle, offset, 0).perform();
-        wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
+    private void moveSliderBySendKeys (SliderDirection direction, WebElement sliderHandle){
+                Actions builder = new Actions(driver);
+                wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
+              if (direction == SliderDirection.RIGHT) {
+//                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"));
+                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_RIGHT).release().perform();
+              } else {
+//                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"));
+                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_LEFT).release().perform();
+
+              }
+
+
+
     }
 
     public void closeFilter() {
@@ -102,9 +122,7 @@ public class FilterPage extends BasePage {
             scopeLabels[i] = scopeLabels[i].replaceAll("[^0-9]", "");
             scopeLabels[i] = scopeLabels[i].substring(0, scopeLabels[i].length() - 2);
         }
-
         return Integer.parseInt(scopeLabels[position]);
-
     }
 
 

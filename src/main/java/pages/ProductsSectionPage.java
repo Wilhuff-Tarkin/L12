@@ -6,17 +6,29 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ProductsSectionPage extends BasePage {
+    private static Logger logger = LoggerFactory.getLogger(ProductsSectionPage.class);
 
 
     @Getter
     @FindBy(css = ".product")
     private List<WebElement> productsOnPage = new ArrayList<>();
+
+
+    @Getter
+    @FindBy(css = ".product-flag.discount")
+    private List<WebElement> discountTagsByProducts = new ArrayList<>();
+
+
+
 
     private List<ProductMiniaturePage> productsList = new ArrayList<>();
 
@@ -37,16 +49,22 @@ public class ProductsSectionPage extends BasePage {
     public ProductsSectionPage setAllProducts() {
 
 
-//        productsOnPage = driver.findElements(By.cssSelector(".product"));
 
         for (int i = 0; i < productsOnPage.size(); i++) {
+
+                productsList.add(new ProductMiniaturePage(driver, productsOnPage.get(i).getText()));
+                logger.info("Adding item " + productsOnPage.get(i).getText() + " to the list");
+            }
+            return this;
+
+
 
 //            driver.findElements(By.cssSelector(".product")).get(i);
 //            String selector = ".products.row :nth-child(" + i + ") article";
 //            System.out.println(driver.findElements(By.cssSelector(".product-title")).get(i).getText());
 //            String name = driver.findElements(By.cssSelector(".product-title")).get(i).getText();
 //            String name = productsOnPage.get(i).findElement(By.cssSelector(selector)).getText();
-            productsList.add(new ProductMiniaturePage(driver, driver.findElements(By.cssSelector(".product-title")).get(i).getText()));
+//            productsList.add(new ProductMiniaturePage(driver, driver.findElements(By.cssSelector(".product-title")).get(i).getText()));
 
         }
 
@@ -54,8 +72,8 @@ public class ProductsSectionPage extends BasePage {
 //            String name = product.findElement(By.cssSelector(".product .product-title")).getText();
 //            productsList.add(new ProductMiniaturePage(driver, name));
 //        }
-        return this;
-    }
+//        return this;
+//    }
 
     public ProductMiniaturePage getRandomProduct() {
         setAllProducts();

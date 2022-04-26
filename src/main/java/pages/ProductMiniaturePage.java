@@ -17,6 +17,11 @@ public class ProductMiniaturePage extends BasePage {
     private WebElement productFinalPrice;
 
 
+
+    @Getter
+    @FindBy(css = ".product-description .product-price-and-shipping >.regular-price")
+    private WebElement productRegularPrice;
+
     public ProductMiniaturePage(WebDriver driver, String name) {
         super(driver);
         this.name = name;
@@ -29,6 +34,8 @@ public class ProductMiniaturePage extends BasePage {
         return Float.parseFloat(driver.findElement(By.cssSelector(".product-description .product-price-and-shipping >.price")).getText().substring(1));
     }
 
-
+    public float getProductRegularPrice() {
+        return Float.parseFloat(driver.findElement(By.cssSelector(".product-description .product-price-and-shipping >.regular-price")).getText().substring(1));
+    }
 
 }

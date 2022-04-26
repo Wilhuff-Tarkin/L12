@@ -38,7 +38,7 @@ public class HeaderPage extends BasePage {
     @Getter
     @FindBy(css = ".ui-corner-all .product")
     private List<WebElement> dropDown = new ArrayList<>();
-    private List<java.lang.String> itemsOnDropDown = new ArrayList<>();
+    private List<String> itemsOnDropDown = new ArrayList<>();
 
     @Getter
     @FindBy(css = ".category [data-depth='0']")
@@ -60,7 +60,7 @@ public class HeaderPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public List<java.lang.String> getItemsFromDropdown(WebDriver driver) {
+    public List<String> getItemsFromDropdown(WebDriver driver) {
         wait.until(ExpectedConditions.visibilityOf(dropDownHints));
         dropDown = driver.findElements(By.cssSelector(".ui-corner-all .product"));
         setAllProductsFromDropdown();

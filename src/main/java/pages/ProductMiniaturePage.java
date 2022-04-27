@@ -13,6 +13,10 @@ public class ProductMiniaturePage extends BasePage {
     private String name;
 
     @Getter
+    @FindBy(css = ".thumbnail.product-thumbnail")
+    private WebElement thumbnail;
+
+    @Getter
     @FindBy(css = ".product-description .product-price-and-shipping >.price")
     private WebElement productFinalPrice;
 

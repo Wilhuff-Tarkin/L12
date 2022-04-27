@@ -41,23 +41,25 @@ public class FilterPage extends BasePage {
         super(driver);
     }
 
-    public void setPriceFilter(int from, int to) {
+    public void setPriceFilter(int from, int to) throws InterruptedException {
         int minPriceValue = getPriceScope(0);
         int maxPriceValue = getPriceScope(1);
 
 
         if (from > minPriceValue && from < maxPriceValue) {
+            sliderHandleLeft = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"));
             operatePriceSlider(sliderHandleLeft, from, SliderDirection.RIGHT);
         }
 
         if (to < maxPriceValue && to > from) {
+            sliderHandleRight = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"));
             operatePriceSlider(sliderHandleRight, to, SliderDirection.LEFT);
         }
 
 
     }
 
-    private void operatePriceSlider(WebElement sliderHandle, int price, SliderDirection direction) {
+    private void operatePriceSlider(WebElement sliderHandle, int price, SliderDirection direction) throws InterruptedException {
 
         int offset = 0;
         int postion = 0;
@@ -67,16 +69,16 @@ public class FilterPage extends BasePage {
             case RIGHT:
                 while (postion != price) {
                     offset = 10;
-//                    moveSliderByOffset(offset, sliderHandle);
-                    moveSliderBySendKeys(direction, sliderHandleLeft);
+                    moveSliderByOffset(offset, sliderHandle);
+//                    moveSliderBySendKeys(direction, sliderHandleLeft);
                     postion = getPriceScope(0);
 
                 }
             case LEFT:
                 while (postion != price) {
                     offset = -10;
-//                    moveSliderByOffset(offset, sliderHandle);
-                    moveSliderBySendKeys(direction, sliderHandleRight);
+                    moveSliderByOffset(offset, sliderHandle);
+//                    moveSliderBySendKeys(direction, sliderHandleRight);
 
                     postion = getPriceScope(1);
                 }
@@ -89,21 +91,25 @@ public class FilterPage extends BasePage {
 //        closeFilterBtn.click();
     }
 //
-//    private void moveSliderByOffset(int offset, WebElement sliderHandle) {
-//        Actions builder = new Actions(driver);
-//        builder.dragAndDropBy(sliderHandle, offset, 0).perform();
-//        wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
-//    }
+    private void moveSliderByOffset(int offset, WebElement sliderHandle) throws InterruptedException {
+        wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
+        Actions builder = new Actions(driver);
+        builder.dragAndDropBy(sliderHandle, offset, 0).perform();
+    }
 
     private void moveSliderBySendKeys (SliderDirection direction, WebElement sliderHandle){
-                Actions builder = new Actions(driver);
-                wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"))));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"))));
+//        wait.until(ExpectedConditions.visibilityOfElementLocated());
+        Actions builder = new Actions(driver);
               if (direction == SliderDirection.RIGHT) {
 //                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"));
-                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_RIGHT).release().perform();
+//                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_RIGHT).release().perform();
+                  builder.clickAndHold(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"))).sendKeys(Keys.ARROW_RIGHT).perform();
               } else {
 //                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"));
-                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_LEFT).release().perform();
+//                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_LEFT).release().perform();
+                  builder.clickAndHold(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"))).sendKeys(Keys.ARROW_LEFT).perform();
 
               }
 

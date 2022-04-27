@@ -52,8 +52,10 @@ public class ProductsSectionPage extends BasePage {
 
         for (int i = 0; i < productsOnPage.size(); i++) {
 
-                productsList.add(new ProductMiniaturePage(driver, productsOnPage.get(i).getText()));
-                logger.info("Adding item " + productsOnPage.get(i).getText() + " to the list");
+                String name = productsOnPage.get(i).findElement(By.cssSelector(".h3.product-title")).getText();
+                productsList.add(new ProductMiniaturePage(driver, name));
+//                productsList.add(new ProductMiniaturePage(driver, productsOnPage.get(i).getText()));
+                logger.info("Adding item " + name + " to the list");
             }
             return this;
 

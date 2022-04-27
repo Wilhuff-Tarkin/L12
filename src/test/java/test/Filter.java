@@ -24,7 +24,7 @@ public class Filter extends TestBase {
             "9, 29"
     })
 
-    void priceFiltersShouldWork(int from, int to){
+    void priceFiltersShouldWork(int from, int to) throws InterruptedException {
 
         HeaderPage headerPage = new HeaderPage(driver);
         headerPage.getArt().click();

@@ -14,8 +14,7 @@ import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class Categories extends TestBase {
+public class    Categories extends TestBase {
 
     private static final Logger log = LoggerFactory.getLogger("categories");
 

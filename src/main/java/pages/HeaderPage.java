@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HeaderPage extends BasePage {
 
-    private static Logger logger = LoggerFactory.getLogger(HeaderPage.class);
+    private static Logger log = LoggerFactory.getLogger(HeaderPage.class);
 
     @FindBy(css = ".ui-autocomplete-input")
     private WebElement searchCatalogInput;
@@ -80,12 +80,12 @@ public class HeaderPage extends BasePage {
     private HeaderPage setAllProductsFromDropdown() {
         for (WebElement product : dropDown) {
             itemsOnDropDown.add(product.getText());
-            logger.info("Adding item " + product.getText() + " to the list");
+            log.info("Adding item " + product.getText() + " to the list");
         }
         return this;
     }
 
-    public HeaderPage sendKeysToSearch(java.lang.String target) {
+    public HeaderPage sendKeysToSearch(String target) {
         searchCatalogInput.click();
         searchCatalogInput.clear();
         searchCatalogInput.sendKeys(target);
@@ -94,6 +94,13 @@ public class HeaderPage extends BasePage {
 
     public void clickSearchBtn() {
         loupeButton.click();
+    }
+
+    public void enterRandomCategory() {
+
+        WebElement randomCategory = getCategoriesLabels().get(random.nextInt(getCategoriesLabels().size()));
+        randomCategory.click();
+
     }
 
     //    public void readDropDown() {

@@ -12,11 +12,49 @@ public class AddedToCartModalPage extends BasePage {
     @FindBy(css = "#myModalLabel")
     private WebElement productAddedToCartLabel;
 
+    @FindBy(css = ".h6.product-name")
+    private WebElement lastAddedProductName;
+
+    @FindBy(css = ".modal-content .product-price")
+    private WebElement lastAddedProductPrice;
+
+    @FindBy(css = ".cart-content .cart-products-count")
+    private WebElement thereAreXelementsInCart;
+
+    @Getter
+    @FindBy(css = ".subtotal.value")
+    private WebElement subTotalValue;
+    @Getter
+    @FindBy(css = ".btn.btn-secondary")
+    private WebElement continueShopping;
+    @Getter
+    @FindBy(css = ".btn.btn-secondary")
+    private WebElement proceedToCheckout;
+    @FindBy(css = ".modal-content .product-quantity strong")
+    private WebElement lastAddedProductQuantity;
+
     public AddedToCartModalPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
+    public String getLastAddedProductName() {
+        return lastAddedProductName.getText();
+    }
+
+    public int getThereAreXelementsInCart() {
+
+        return Integer.parseInt(thereAreXelementsInCart.getText());
+
+    }
+
+    public int getLastAddedProductQuantity() {
+        return Integer.parseInt(lastAddedProductQuantity.getText());
+    }
+
+    public float getLastAddedProductPrice() {
+        return parsePrice(lastAddedProductPrice);
+    }
 
 
 }

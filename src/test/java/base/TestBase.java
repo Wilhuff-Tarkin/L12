@@ -65,7 +65,7 @@ public class TestBase {
         driver = browser.getDriver(model.getTestedBrowser());
         driver.get(testEnvironment.returnValueAsString("appUrl"));
         setWindowOptions(driver);
-        int timeout = Integer.parseInt(testEnvironment.returnValueAsString("timout"));
+        int timeout = Integer.parseInt(testEnvironment.returnValueAsString("timeout"));
         driverWait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
     }
 

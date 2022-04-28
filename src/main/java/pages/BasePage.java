@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -28,5 +29,9 @@ public class BasePage {
         wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
 
+
+    public float parsePrice (WebElement price) {
+        return Float.parseFloat(price.getText().substring(1));
+    }
 
 }

@@ -48,13 +48,12 @@ public class ProductsSectionPage extends BasePage {
 
     public ProductsSectionPage setAllProducts() {
 
-
-
         for (int i = 0; i < productsOnPage.size(); i++) {
 
                 String name = productsOnPage.get(i).findElement(By.cssSelector(".h3.product-title")).getText();
-                productsList.add(new ProductMiniaturePage(driver, name));
-//                productsList.add(new ProductMiniaturePage(driver, productsOnPage.get(i).getText()));
+                WebElement thumbnail = productsOnPage.get(i).findElement(By.cssSelector(".thumbnail.product-thumbnail"));
+                WebElement price = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .price"));
+                productsList.add(new ProductMiniaturePage(driver, name, thumbnail, price));
                 logger.info("Adding item " + name + " to the list");
             }
             return this;

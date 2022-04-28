@@ -83,6 +83,7 @@ public class PricesDrop extends TestBase {
         for (ProductMiniaturePage productMiniaturePage : list) {
             float finalPrice = productMiniaturePage.getProductFinalPrice();
             float regularPrice = productMiniaturePage.getProductRegularPrice();
+            //tu jest problem bo nie wszystkie produkty mają discount pytanie czy konstruktor dodac drugi na taki wyapdek czy co
             calculateDisount(finalPrice, regularPrice);
 
         }

@@ -21,9 +21,14 @@ public class AddedToCartModalPage extends BasePage {
     @FindBy(css = ".cart-content .cart-products-count")
     private WebElement thereAreXelementsInCart;
 
-    @Getter
+    public float getSubTotalValue() {
+
+        return parsePrice(subTotalValue);
+    }
+
     @FindBy(css = ".subtotal.value")
     private WebElement subTotalValue;
+
     @Getter
     @FindBy(css = ".btn.btn-secondary")
     private WebElement continueShopping;
@@ -43,8 +48,10 @@ public class AddedToCartModalPage extends BasePage {
     }
 
     public int getThereAreXelementsInCart() {
-
-        return Integer.parseInt(thereAreXelementsInCart.getText());
+        String result = thereAreXelementsInCart.getText();
+        result = result.replaceAll("[^\\d]", "");
+        System.out.println(result);
+        return Integer.parseInt(result);
 
     }
 

@@ -35,6 +35,11 @@ public class HeaderPage extends BasePage {
     @FindBy(css = "#category-9")
     private WebElement art;
 
+
+    @Getter
+    @FindBy(css = ".cart-products-count")
+    private WebElement cartProductsCount;
+
     @Getter
     @FindBy(css = ".ui-corner-all .product")
     private List<WebElement> dropDown = new ArrayList<>();

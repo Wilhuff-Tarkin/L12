@@ -1,10 +1,8 @@
 package configuration.model;
 
-import configuration.driver.DriverFactory;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pages.ProductFullPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ public class CartModel {
     private static final Logger log = LoggerFactory.getLogger("cart model");
 
     @Getter
-    private List<ProductModel> cartContent = new ArrayList<>();
+    private List<ProductOrderModel> cartContent = new ArrayList<>();
 
     private float totalOrderCost;
 
@@ -23,7 +21,7 @@ public class CartModel {
 
 
 
-    public void addAnother (ProductModel product) {
+    public void addAnother (ProductOrderModel product) {
 
 
         if (checkIfThisIsAlreadyOnTheList(product.getName())){
@@ -41,23 +39,33 @@ public class CartModel {
 
         totalOrderCost = 0;
 
-        for (ProductModel productModel : cartContent) {
-            totalOrderCost += (productModel.getPrice() * productModel.getQuantity());
+        for (ProductOrderModel productOrderModel : cartContent) {
+            totalOrderCost += (productOrderModel.getPrice() * productOrderModel.getQuantity());
         }
 
         return totalOrderCost;
     }
 
+    public int getNumberOfItems () {
+
+        numberOfItems = 0;
+
+        for (ProductOrderModel productOrderModel : cartContent) {
+            numberOfItems += productOrderModel.getQuantity();
+        }
+
+        return numberOfItems;
+    }
 
 
 
-    private void increaseQuantity(ProductModel product) {
+    private void increaseQuantity(ProductOrderModel product) {
 
         int additionalQuantity = product.getQuantity();
 
         for (int i = 0; i < cartContent.size(); i++) {
             if (cartContent.get(i).getName().contains(product.getName())){
-                ProductModel productAlreadyOnTheList = cartContent.get(i);
+                ProductOrderModel productAlreadyOnTheList = cartContent.get(i);
                 productAlreadyOnTheList.setQuantity(productAlreadyOnTheList.getQuantity()+additionalQuantity);
             }
         }
@@ -80,7 +88,7 @@ public class CartModel {
 //    return checkResult;
 
 
-        return cartContent.stream().anyMatch(productModel -> productModel.getName().equals(name));
+        return cartContent.stream().anyMatch(productOrderModel -> productOrderModel.getName().equals(name));
 
     }
 
@@ -91,5 +99,10 @@ public class CartModel {
                 "cartContent=" + cartContent.toString() +
                 ", totalOrderCost=" + getTotalOrderCost() +
                 '}';
+    }
+
+    public int getQuantity(String name) {
+        return cartContent.stream().filter(productOrderModel -> productOrderModel.getName().equals(name))
+                .findAny().get().getQuantity();
     }
 }

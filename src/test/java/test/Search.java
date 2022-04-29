@@ -1,13 +1,12 @@
 package test;
 
 import base.TestBase;
-import configuration.model.ProductModel;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.HeaderPage;
 import pages.HomePage;
-import pages.ProductMiniaturePage;
+import configuration.model.ProductMiniatureModel;
 import pages.SearchResultPage;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class Search extends TestBase {
     void shouldSearchForRandomProduct() {
 
         HomePage homePage = new HomePage(driver);
-        ProductMiniaturePage randomProduct = homePage.getProductsSectionPage().getRandomProduct();
+        ProductMiniatureModel randomProduct = homePage.getProductsSectionPage().getRandomProduct();
         log.info("Randomly picked product: " + randomProduct.getName());
 
         HeaderPage headerPage = new HeaderPage(driver);
@@ -32,7 +31,7 @@ public class Search extends TestBase {
         headerPage.clickSearchBtn();
 
         SearchResultPage searchResultPage = new SearchResultPage(driver);
-        List <ProductMiniaturePage> productsFound = searchResultPage.getProductsSectionPage().getProductsList();
+        List <ProductMiniatureModel> productsFound = searchResultPage.getProductsSectionPage().getProductsList();
         log.info("Found " + productsFound.size() + " product(s).");
 
         assertThat("Product not found on the list", productsFound.stream().anyMatch((product) -> product.getName().contains(randomProduct.getName())));
@@ -42,7 +41,7 @@ public class Search extends TestBase {
     void shouldFindRandomProductInDropdown() {
 
         HomePage homePage = new HomePage(driver);
-        ProductMiniaturePage randomProduct = homePage.getProductsSectionPage().getRandomProduct();
+        ProductMiniatureModel randomProduct = homePage.getProductsSectionPage().getRandomProduct();
         log.info("Randomly picked product: " + randomProduct.getName());
 
         HeaderPage headerPage = new HeaderPage(driver);

@@ -2,11 +2,8 @@ package configuration.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import pages.BasePage;
 
-public class ProductModel {
+public class ProductOrderModel {
 
     @Getter
     @Setter
@@ -21,7 +18,7 @@ public class ProductModel {
     private int quantity;
 
 
-    public ProductModel(String name, float price, int quantity) {
+    public ProductOrderModel(String name, float price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;

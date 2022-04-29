@@ -1,15 +1,13 @@
 package test;
 
 import base.TestBase;
-import configuration.model.ProductModel;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.CategoryPage;
 import pages.HeaderPage;
-import pages.ProductMiniaturePage;
+import configuration.model.ProductMiniatureModel;
 
 import java.util.List;
 
@@ -32,9 +30,9 @@ public class Filter extends TestBase {
 
         artPage.getFilterPage().setPriceFilter(from, to);
 
-        List <ProductMiniaturePage> products = artPage.getProductsSectionPage().getProductsList();
+        List <ProductMiniatureModel> products = artPage.getProductsSectionPage().getProductsList();
 
-        for (ProductMiniaturePage product : products) {
+        for (ProductMiniatureModel product : products) {
 
             System.out.println(product.getProductFinalPrice());
         }

@@ -1,6 +1,7 @@
 package pages;
 
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,6 +47,9 @@ public class ProductFullPage extends BasePage{
     @FindBy(css = ".material-icons.touchspin-down")
     private WebElement quantityDown;
 
+    @Getter
+    @FindBy(css = ".product-message")
+    private WebElement customizableText;
 
 
     @Getter
@@ -55,6 +59,10 @@ public class ProductFullPage extends BasePage{
     @Getter
     @FindBy(css = ".discount.discount-percentage")
     private WebElement discountTag;
+
+    @Getter
+    @FindBy(css = ".clearfix .btn.btn-primary.float-xs-right")
+    private WebElement saveCustomizationBtn;
 
 
 
@@ -79,6 +87,24 @@ public class ProductFullPage extends BasePage{
         }
                 return quantity;
     }
+
+    public void addToCart(String customizableText) {
+
+        if (checkIfProductIsCustomizable()){
+            getCustomizableText().sendKeys(customizableText);
+            getSaveCustomizationBtn().click();
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(addToCartBtn));
+        getAddToCartBtn().click();
+    }
+
+
+
+    private boolean checkIfProductIsCustomizable() {
+        return !driver.findElements(By.cssSelector(".product-message")).isEmpty();
+
+    }
+
 }
 
 

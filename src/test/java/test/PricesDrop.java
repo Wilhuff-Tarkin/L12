@@ -1,6 +1,7 @@
 package test;
 
 import base.TestBase;
+import configuration.model.ProductMiniatureModel;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class PricesDrop extends TestBase {
     private void verifyPricesDropSingleProduct() {
 
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
-        ProductMiniaturePage miniaturePage = productsOnSale.getRandomProduct();
+        ProductMiniatureModel miniaturePage = productsOnSale.getRandomProduct();
         String productName = miniaturePage.getName();
         log.info("Random discounted product selected: " + productName);
         miniaturePage.getThumbnail().click();
@@ -78,9 +79,9 @@ public class PricesDrop extends TestBase {
 
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
 
-        List<ProductMiniaturePage> list = productsOnSale.getProductsList();
+        List<ProductMiniatureModel> list = productsOnSale.getProductsList();
 
-        for (ProductMiniaturePage productMiniaturePage : list) {
+        for (ProductMiniatureModel productMiniaturePage : list) {
             float finalPrice = productMiniaturePage.getProductFinalPrice();
             float regularPrice = productMiniaturePage.getProductRegularPrice();
             //tu jest problem bo nie wszystkie produkty mają discount pytanie czy konstruktor dodac drugi na taki wyapdek czy co
@@ -93,9 +94,9 @@ public class PricesDrop extends TestBase {
 
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
 
-        List<ProductMiniaturePage> list = productsOnSale.getProductsList();
+        List<ProductMiniatureModel> list = productsOnSale.getProductsList();
 
-        for (ProductMiniaturePage productMiniaturePage : list) {
+        for (ProductMiniatureModel productMiniaturePage : list) {
             System.out.println("final price: " + productMiniaturePage.getProductFinalPrice());
             System.out.println("regular price: " + productMiniaturePage.getProductRegularPrice());
             System.out.println("name is: " + productMiniaturePage.getName());

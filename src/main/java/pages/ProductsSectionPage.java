@@ -1,12 +1,12 @@
 package pages;
 
+import configuration.model.ProductMiniatureModel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class ProductsSectionPage extends BasePage {
 
 
 
-    private List<ProductMiniaturePage> productsList = new ArrayList<>();
+    private List<ProductMiniatureModel> productsList = new ArrayList<>();
 
 
     public ProductsSectionPage(WebDriver driver) {
@@ -41,7 +41,7 @@ public class ProductsSectionPage extends BasePage {
 
 
 
-    public List<ProductMiniaturePage> getProductsList() {
+    public List<ProductMiniatureModel> getProductsList() {
         setAllProducts();
         return productsList;
     }
@@ -53,7 +53,12 @@ public class ProductsSectionPage extends BasePage {
                 String name = productsOnPage.get(i).findElement(By.cssSelector(".h3.product-title")).getText();
                 WebElement thumbnail = productsOnPage.get(i).findElement(By.cssSelector(".thumbnail.product-thumbnail"));
                 WebElement price = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .price"));
-                productsList.add(new ProductMiniaturePage(driver, name, thumbnail, price));
+                if (checkIfproductHaveRegularPrice()){
+                    WebElement regularPrice = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .regular-price"));
+                    productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price, regularPrice));
+                } else {
+                    productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price));
+                }
                 logger.info("Adding item " + name + " to the list");
             }
             return this;
@@ -69,6 +74,14 @@ public class ProductsSectionPage extends BasePage {
 
         }
 
+    private boolean checkIfproductHaveRegularPrice() {
+        return !driver.findElements(By.cssSelector(".product-price-and-shipping .regular-price")).isEmpty();
+
+        }
+
+
+
+
 //        for (WebElement product : productsOnPage) {
 //            String name = product.findElement(By.cssSelector(".product .product-title")).getText();
 //            productsList.add(new ProductMiniaturePage(driver, name));
@@ -76,7 +89,7 @@ public class ProductsSectionPage extends BasePage {
 //        return this;
 //    }
 
-    public ProductMiniaturePage getRandomProduct() {
+    public ProductMiniatureModel getRandomProduct() {
         setAllProducts();
         return productsList.get(random.nextInt(productsList.size()));
     }

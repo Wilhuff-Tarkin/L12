@@ -1,20 +1,14 @@
 package pages;
 
-import ch.qos.logback.core.joran.conditional.ThenAction;
 import lombok.Getter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.lang.invoke.SwitchPoint;
-
 public class FilterPage extends BasePage {
-
-
 
 
     @Getter
@@ -24,6 +18,12 @@ public class FilterPage extends BasePage {
     @Getter
     @FindBy(css = ".ps-shown-by-js")
     private WebElement firstFilterOnPage;
+
+    @Getter
+    @FindBy(css = ".text-uppercase.h6.hidden-sm-down")
+    private WebElement filterByLabel;
+
+
 
     @Getter
     @FindBy(css = "div[id^='slider-range'] > a:nth-of-type(1)")
@@ -55,66 +55,35 @@ public class FilterPage extends BasePage {
             sliderHandleRight = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"));
             operatePriceSlider(sliderHandleRight, to, SliderDirection.LEFT);
         }
-
-
     }
 
-    private void operatePriceSlider(WebElement sliderHandle, int price, SliderDirection direction) throws InterruptedException {
-
-        int offset = 0;
-        int postion = 0;
+    private void operatePriceSlider(WebElement sliderHandle, int price, SliderDirection direction) {
+        int offset;
+        int sliderPosition = 0;
+        Actions builder = new Actions(driver);
 
         switch (direction){
-
             case RIGHT:
-                while (postion != price) {
+                while (sliderPosition != price) {
                     offset = 10;
-                    moveSliderByOffset(offset, sliderHandle);
-//                    moveSliderBySendKeys(direction, sliderHandleLeft);
-                    postion = getPriceScope(0);
-
+                    moveSliderByOffset(offset, sliderHandle, builder);
+                    sliderPosition = getPriceScope(0);
                 }
             case LEFT:
-                while (postion != price) {
+                while (sliderPosition != price) {
                     offset = -10;
-                    moveSliderByOffset(offset, sliderHandle);
-//                    moveSliderBySendKeys(direction, sliderHandleRight);
-
-                    postion = getPriceScope(1);
+                    moveSliderByOffset(offset, sliderHandle, builder);
+                    sliderPosition = getPriceScope(1);
                 }
-
-
         }
-
-//
-//        closeFilterBtn = driver.findElement(By.cssSelector(".material-icons.close"));
-//        closeFilterBtn.click();
+        builder.release().perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".faceted-overlay")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-block")));
     }
-//
-    private void moveSliderByOffset(int offset, WebElement sliderHandle) throws InterruptedException {
+
+    private void moveSliderByOffset(int offset, WebElement sliderHandle, Actions builder) {
         wait.until(ExpectedConditions.elementToBeClickable(sliderHandle));
-        Actions builder = new Actions(driver);
-        builder.dragAndDropBy(sliderHandle, offset, 0).perform();
-    }
-
-    private void moveSliderBySendKeys (SliderDirection direction, WebElement sliderHandle){
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"))));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"))));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated());
-        Actions builder = new Actions(driver);
-              if (direction == SliderDirection.RIGHT) {
-//                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"));
-//                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_RIGHT).release().perform();
-                  builder.clickAndHold(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(1)"))).sendKeys(Keys.ARROW_RIGHT).perform();
-              } else {
-//                  sliderHandle = driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"));
-//                  builder.clickAndHold(sliderHandle).sendKeys(Keys.ARROW_LEFT).release().perform();
-                  builder.clickAndHold(driver.findElement(By.cssSelector("div[id^='slider-range'] > a:nth-of-type(2)"))).sendKeys(Keys.ARROW_LEFT).perform();
-
-              }
-
-
-
+        builder.clickAndHold(sliderHandle).moveByOffset(offset, 0).perform();
     }
 
     public void closeFilter() {
@@ -131,10 +100,8 @@ public class FilterPage extends BasePage {
         return Integer.parseInt(scopeLabels[position]);
     }
 
-
     public enum SliderDirection {
         LEFT,
         RIGHT,
     }
-
 }

@@ -5,13 +5,8 @@ import org.junit.jupiter.api.Test;
 
 public class CreateUser {
 
-
-
     @Test
     void shouldCreateUser() {
-
         System.out.println(UserFactory.getRandomUser());
-
-
     }
 }

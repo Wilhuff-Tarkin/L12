@@ -4,24 +4,26 @@ import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartModel {
 
     private static final Logger log = LoggerFactory.getLogger("cart model");
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
 
     @Getter
-    private List<ProductOrderModel> cartContent = new ArrayList<>();
+    private List<OrderProductModel> cartContent = new ArrayList<>();
 
     private float totalOrderCost;
 
-    @Getter
     private int numberOfItems;
 
 
 
-    public void addAnother (ProductOrderModel product) {
+    public void addAnother (OrderProductModel product) {
 
 
         if (checkIfThisIsAlreadyOnTheList(product.getName())){
@@ -36,21 +38,18 @@ public class CartModel {
     }
 
     public float getTotalOrderCost () {
-
         totalOrderCost = 0;
-
-        for (ProductOrderModel productOrderModel : cartContent) {
+        for (OrderProductModel productOrderModel : cartContent) {
             totalOrderCost += (productOrderModel.getPrice() * productOrderModel.getQuantity());
         }
-
-        return totalOrderCost;
+        return Float.parseFloat(df.format(totalOrderCost).replaceAll(",", "."));
     }
 
     public int getNumberOfItems () {
 
         numberOfItems = 0;
 
-        for (ProductOrderModel productOrderModel : cartContent) {
+        for (OrderProductModel productOrderModel : cartContent) {
             numberOfItems += productOrderModel.getQuantity();
         }
 
@@ -59,13 +58,13 @@ public class CartModel {
 
 
 
-    private void increaseQuantity(ProductOrderModel product) {
+    private void increaseQuantity(OrderProductModel product) {
 
         int additionalQuantity = product.getQuantity();
 
         for (int i = 0; i < cartContent.size(); i++) {
             if (cartContent.get(i).getName().contains(product.getName())){
-                ProductOrderModel productAlreadyOnTheList = cartContent.get(i);
+                OrderProductModel productAlreadyOnTheList = cartContent.get(i);
                 productAlreadyOnTheList.setQuantity(productAlreadyOnTheList.getQuantity()+additionalQuantity);
             }
         }
@@ -102,7 +101,7 @@ public class CartModel {
     }
 
     public int getQuantity(String name) {
-        return cartContent.stream().filter(productOrderModel -> productOrderModel.getName().equals(name))
+        return cartContent.stream().filter(OrderProductModel -> OrderProductModel.getName().equals(name))
                 .findAny().get().getQuantity();
     }
 }

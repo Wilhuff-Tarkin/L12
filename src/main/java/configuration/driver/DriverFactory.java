@@ -9,8 +9,6 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,15 +32,13 @@ public class DriverFactory {
                 driver = getIe();
                 break;
             default:
-                driver = getIe();
+                driver = getChrome();
         }
         log.info(">>>> Driver started. Browser: " + browser.name());
         return driver;
     }
 
     private WebDriver getIe() {
-
-        InternetExplorerOptions defaultOptions = new InternetExplorerOptions();
         WebDriverManager.iedriver().setup();
         return new InternetExplorerDriver();
     }

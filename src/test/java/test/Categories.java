@@ -2,7 +2,6 @@ package test;
 
 import base.TestBase;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,16 +13,14 @@ import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class    Categories extends TestBase {
+public class Categories extends TestBase {
 
     private static final Logger log = LoggerFactory.getLogger("categories");
 
     @Test
     void categoriesTest() {
-
         HeaderPage headerPage = new HeaderPage(driver);
         List<WebElement> categories = headerPage.getCategoriesLabels();
-
         for (int i = 0; i < categories.size(); i++) {
             verifyCategory(categories.get(i));
         }
@@ -32,7 +29,6 @@ public class    Categories extends TestBase {
     private void verifyCategory(WebElement categoryLink) {
         String categoryLabel = categoryLink.getText();
         log.info(">>>> Testing: " + categoryLabel.toUpperCase(Locale.ROOT));
-
         categoryLink.click();
         CategoryPage page = new CategoryPage(driver);
 
@@ -40,7 +36,6 @@ public class    Categories extends TestBase {
         filtersSideMenuShouldBeDisplayed(categoryLabel, page);
         numberOfProductsShouldBeDisplayed(categoryLabel, page);
         driver.navigate().back();
-
     }
 
     @Test
@@ -50,7 +45,6 @@ public class    Categories extends TestBase {
         log.info("Found " + categories.size() + " main categories");
 
         for (int i = 0; i < categories.size(); i++) {
-
             categories.get(i).click();
             CategoryPage page = new CategoryPage(driver);
             log.info(">>>> Looking for subcategories in " + page.getHeader().getText());
@@ -85,38 +79,4 @@ public class    Categories extends TestBase {
         log.info("Checking if header match for category " + categoryLabel.toUpperCase(Locale.ROOT));
         assertThat("not as expected", page.getHeader().getText().equalsIgnoreCase(categoryLabel));
     }
-
-
-//    @ParameterizedTest
-//    @MethodSource("addParameters")
-//    void parametrizedCategoriesTest(List <WebElement> categories) {
-//
-//
-//        for (int i = 0; i < categories.size(); i++) {
-//
-//            String categoryLabel = categories.get(i).getText();
-//            categories.get(i).click();
-//            CategoryPage page = new CategoryPage(driver);
-//
-//            log.info("Checking if header match for category " + categoryLabel);
-//            nameOfCategoryShouldMatchHeader(categoryLabel, page);
-//
-//            log.info("Checking if filter box is displayed for category " + categoryLabel);
-//            filtersSideMenuShouldBeDisplayed(page);
-//
-//            log.info("Checking number of products for category " + categoryLabel);
-//            numberOfProductsShouldBeDisplayed(page);
-//        }
-//    }
-//
-//    private Stream<Arguments> addParameters() {
-//        HeaderPage headerPage = new HeaderPage(driver);
-//
-//        return Stream.of(
-//                Arguments.of(headerPage.getSubCategoriesLabels()),
-//                Arguments.of(headerPage.getCategoriesLabels())
-//        );
-//    }
-
-
 }

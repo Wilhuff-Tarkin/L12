@@ -3,7 +3,7 @@ package configuration.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ProductOrderModel {
+public class OrderProductModel {
 
     @Getter
     @Setter
@@ -18,7 +18,7 @@ public class ProductOrderModel {
     private int quantity;
 
 
-    public ProductOrderModel(String name, float price, int quantity) {
+    public OrderProductModel(String name, float price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;

@@ -3,13 +3,17 @@ package test;
 import base.TestBase;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.CategoryPage;
 import pages.HeaderPage;
-import configuration.model.ProductMiniatureModel;
+import pages.ProductsSectionPage;
 
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Filter extends TestBase {
 
@@ -21,28 +25,31 @@ public class Filter extends TestBase {
             "24, 29",
             "9, 29"
     })
-
     void priceFiltersShouldWork(int from, int to) throws InterruptedException {
 
+        CategoryPage artPage = goToArtPage();
+        artPage.getFilterPage().setPriceFilter(from, to);
+        checkIfProductPricesFitsInScope(from, to);
+    }
+
+    private void checkIfProductPricesFitsInScope(int from, int to) {
+        ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
+        List<Float> prices = productsOnSale.getFinalPrices();
+
+        log.info("Price filter is set to prices between " + from + " to " + to);
+
+        for (int i = 0; i < prices.size(); i++) {
+            log.info("Checking price " + prices.get(i));
+            assertThat("Product price is below FROM value", !(prices.get(i) < from));
+            assertThat("Product price is above TO value", !(prices.get(i) > to));
+            log.info("Product price fit within desired scope");
+        }
+    }
+
+    private CategoryPage goToArtPage() {
         HeaderPage headerPage = new HeaderPage(driver);
         headerPage.getArt().click();
         CategoryPage artPage = new CategoryPage(driver);
-
-        artPage.getFilterPage().setPriceFilter(from, to);
-
-        List <ProductMiniatureModel> products = artPage.getProductsSectionPage().getProductsList();
-
-        for (ProductMiniatureModel product : products) {
-
-            System.out.println(product.getProductFinalPrice());
-        }
-
-        //listy produktow
-        // dla kazdego zrobic asercje czy cena jest mniejsza od to i wieksza rowna od od
-
-
-//        System.out.println("from " + artPage.getFilterPage().getPriceScope(0));
-//        System.out.println("to " + artPage.getFilterPage().getPriceScope(1));
-
+        return artPage;
     }
 }

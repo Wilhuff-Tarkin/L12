@@ -5,7 +5,9 @@ import configuration.model.ProductMiniatureModel;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pages.*;
+import pages.FooterPage;
+import pages.ProductFullPage;
+import pages.ProductsSectionPage;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -21,54 +23,49 @@ public class PricesDrop extends TestBase {
     @Test
     void verifyPricesDropCategory() {
 
-        FooterPage footerPage = new FooterPage(driver);
-        footerPage.getPricedDropBtn().click();
+        getPricesDropCategory();
         onSalePageShouldLoad();
         eachProductShouldHaveDiscountTag();
         eachProductShouldHaveStandardAndDiscountPrice();
         discountedPricesShouldBe20percentLower();
-        verifyPricesDropSingleProduct();
-
-
     }
 
-    private void verifyPricesDropSingleProduct() {
-
+    @Test
+    void verifyPricesDropSingleProduct() {
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
-        ProductMiniatureModel miniaturePage = productsOnSale.getRandomProduct();
-        String productName = miniaturePage.getName();
+        ProductMiniatureModel miniatureProduct = productsOnSale.getRandomProduct();
+        String productName = miniatureProduct.getName();
         log.info("Random discounted product selected: " + productName);
-        miniaturePage.getThumbnail().click();
+        miniatureProduct.getThumbnail().click();
         ProductFullPage productPage = new ProductFullPage(driver, productName);
         discountTagShouldBePresent(productPage);
         shouldHaveStandardAndDiscountPrice(productPage);
         discountedPricesShouldBe20percentLower2(productPage);
+    }
 
-
+    private void getPricesDropCategory() {
+        FooterPage footerPage = new FooterPage(driver);
+        footerPage.getPricedDropBtn().click();
     }
 
     private void discountedPricesShouldBe20percentLower2(ProductFullPage productPage) {
-
         float finalPrice = productPage.getProductFinalPrice();
         float regularPrice = productPage.getProductRegularPrice();
-        calculateDisount (finalPrice, regularPrice);
-
-
+        calculateDiscount(finalPrice, regularPrice);
     }
 
-    private void calculateDisount(float finalPrice, float regularPrice) {
+    private void calculateDiscount(float finalPrice, float regularPrice) {
         float priceAfter20off = regularPrice - (regularPrice * 20) / 100;
-        priceAfter20off = Float.parseFloat(df.format(priceAfter20off).replaceAll(",","."));
+        priceAfter20off = Float.parseFloat(df.format(priceAfter20off).replaceAll(",", "."));
         log.info("Calculated price after 20% discount: " + priceAfter20off);
         assertThat("Final price not as expected", finalPrice == priceAfter20off);
     }
 
     private void shouldHaveStandardAndDiscountPrice(ProductFullPage productPage) {
-
-        System.out.println("regular " + productPage.getProductRegularPrice());
-        System.out.println( "discounted " + productPage.getProductFinalPrice());
-
-
+        String name = productPage.getName();
+        assertThat("Product do not have regular price", productPage.getProductRegularPrice() > 0);
+        assertThat("Product do not have discount price", productPage.getProductFinalPrice() > 0);
+        log.info("Product " + name + " have standard and discount price");
     }
 
     private void discountTagShouldBePresent(ProductFullPage productPage) {
@@ -76,50 +73,42 @@ public class PricesDrop extends TestBase {
     }
 
     private void discountedPricesShouldBe20percentLower() {
-
-        ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
-
-        List<ProductMiniatureModel> list = productsOnSale.getProductsList();
+        List<ProductMiniatureModel> list = getProductsOnThePage();
 
         for (ProductMiniatureModel productMiniaturePage : list) {
             float finalPrice = productMiniaturePage.getProductFinalPrice();
             float regularPrice = productMiniaturePage.getProductRegularPrice();
-            //tu jest problem bo nie wszystkie produkty mają discount pytanie czy konstruktor dodac drugi na taki wyapdek czy co
-            calculateDisount(finalPrice, regularPrice);
-
+            calculateDiscount(finalPrice, regularPrice);
         }
+    }
+
+    private List<ProductMiniatureModel> getProductsOnThePage() {
+        ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
+        return productsOnSale.getProductsList();
     }
 
     private void eachProductShouldHaveStandardAndDiscountPrice() {
-
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
-
         List<ProductMiniatureModel> list = productsOnSale.getProductsList();
 
         for (ProductMiniatureModel productMiniaturePage : list) {
-            System.out.println("final price: " + productMiniaturePage.getProductFinalPrice());
-            System.out.println("regular price: " + productMiniaturePage.getProductRegularPrice());
-            System.out.println("name is: " + productMiniaturePage.getName());
-
-//            assertThat("Product do not have price or disounted price",);
+            String name = productMiniaturePage.getName();
+            assertThat("Product do not have regular price", productMiniaturePage.getProductRegularPrice() > 0);
+            assertThat("Product do not have discount price", productMiniaturePage.getProductFinalPrice() > 0);
+            log.info("Product " + name + " have standard and discount price");
         }
-
     }
 
     private void eachProductShouldHaveDiscountTag() {
-
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
-
         int productsFound = productsOnSale.getProductsOnPage().size();
         int discountTagsFound = productsOnSale.getDiscountTagsByProducts().size();
-
         log.info("Found " + productsFound + " products on page and " + discountTagsFound + " of them on discount");
-        assertThat("Different number of products and disounttags", productsFound == discountTagsFound);
-
+        assertThat("Different number of products and discount tags", productsFound == discountTagsFound);
     }
 
     private void onSalePageShouldLoad() {
-
-        System.out.println(checkIfDesiredPageLoaded("On sale"));
+        String expectedTitle = testEnvironment.returnValueAsString("droppedPricesCatName");
+        checkIfDesiredPageLoaded(expectedTitle);
     }
 }

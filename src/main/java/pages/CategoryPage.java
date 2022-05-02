@@ -16,19 +16,6 @@ public class CategoryPage extends BasePage{
     @Getter
     private ProductsSectionPage productsSectionPage;
 
-//    @Getter
-//    @FindBy(css = ".product")
-//    private List<WebElement> productsOnCategoryPage = new ArrayList<>();
-
-
-//    public List<ProductMiniaturePage> getProductsList() {
-//        setAllProducts();
-//        return productsList;
-//    }
-//
-//    private List<ProductMiniaturePage> productsList = new ArrayList<>();
-
-
     @FindBy(css = "#js-product-list-header .h1")
     private WebElement categoryTitle;
 
@@ -45,10 +32,6 @@ public class CategoryPage extends BasePage{
     @Getter
     @FindBy(css = "#js-product-list-top p")
     private WebElement ThereAreXProducts;
-
-//    @Getter
-//    @FindBy(css = "#js-product-list-top p")
-//    private WebElement ThereAreXProducts;
 
     @Getter
     @FindBy(css = ".category-sub-menu a")

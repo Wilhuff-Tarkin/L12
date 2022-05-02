@@ -11,6 +11,8 @@ testData:
     timeout: 3
     iterations: 3
     customTxt: hasta la vista baby
+    droppedPricesCatName: On sale
+    basketIterations: 5
 
 
   test2:
@@ -19,6 +21,9 @@ testData:
     timeout: 3
     iterations: 3
     customTxt: hasta la vista baby
+    droppedPricesCatName: On sale
+    basketIterations: 5
+
 
 
   test3:
@@ -27,6 +32,8 @@ testData:
     timeout: 5
     iterations: 3
     customTxt: hasta la vista baby
+    droppedPricesCatName: On sale
+    basketIterations: 5
 
 
 

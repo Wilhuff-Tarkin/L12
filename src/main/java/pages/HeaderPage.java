@@ -35,10 +35,15 @@ public class HeaderPage extends BasePage {
     @FindBy(css = "#category-9")
     private WebElement art;
 
-
     @Getter
     @FindBy(css = ".cart-products-count")
     private WebElement cartProductsCount;
+
+    @Getter
+    @FindBy(css = ".header a")
+    private WebElement openCartBtn;
+
+
 
     @Getter
     @FindBy(css = ".ui-corner-all .product")
@@ -48,12 +53,6 @@ public class HeaderPage extends BasePage {
     @Getter
     @FindBy(css = ".category [data-depth='0']")
     private List<WebElement> categoriesLabels = new ArrayList<>();
-
-
-//
-//    private List <String> mainCategories = new ArrayList<>();
-//
-//    private List<String> subCategories = new ArrayList<>();
 
 
     @FindBy(css = "#ui-id-1")
@@ -73,19 +72,10 @@ public class HeaderPage extends BasePage {
     }
 
 
-//    public List<String> setMainCategories() {
-//
-//        for (WebElement categoryName : categoriesLabels) {
-//            mainCategories.add(categoryName.getText());
-//            logger.info("Adding item " + categoryName.getText() + " to the list");
-//        }
-//        return mainCategories;
-//    }
-
     private HeaderPage setAllProductsFromDropdown() {
         for (WebElement product : dropDown) {
             itemsOnDropDown.add(product.getText());
-            log.info("Adding item " + product.getText() + " to the list");
+            log.info("Adding item " + product.getText() + " to the list from dropdown");
         }
         return this;
     }
@@ -108,22 +98,4 @@ public class HeaderPage extends BasePage {
 
     }
 
-    //    public void readDropDown() {
-//    }
-//
-//    public List<WebElement> getSubCategoriesLabels() {
-//
-//
-//
-//        for (int i = 0; i < categoriesLabels.size(); i++) {
-//
-//            categoriesLabels.get(i).click();
-//            CategoryPage page = new CategoryPage(driver);
-//            List <WebElement> subcats = page.getSubCategories();
-//
-//            f
-//
-//
-//        }
-//        return categoriesLabels;
     }

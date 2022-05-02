@@ -6,7 +6,6 @@ import com.github.javafaker.service.RandomService;
 import configuration.model.SocialTitle;
 import configuration.model.UserModel;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -19,7 +18,7 @@ public class UserFactory {
         Faker faker = new Faker();
 
         UserModel userModel = UserBuilder.builder()
-                .socialTitle(SocialTitle.values()[faker.random().nextInt(1, SocialTitle.values().length)-1])
+                .socialTitle(SocialTitle.values()[faker.random().nextInt(1, SocialTitle.values().length) - 1])
                 .firstName(faker.name().firstName())
                 .lastName(faker.name().lastName())
                 .email(fakeValuesService.bothify("????##@gmail.com"))
@@ -83,32 +82,28 @@ public class UserFactory {
             return this;
         }
 
-
-        public UserBuilder receiveOffersConsent(boolean receiveOffersConsent ) {
+        public UserBuilder receiveOffersConsent(boolean receiveOffersConsent) {
             this.receiveOffersConsent = receiveOffersConsent;
             return this;
         }
 
-        public UserBuilder dataPrivacyConsent(boolean dataPrivacyConsent ) {
+        public UserBuilder dataPrivacyConsent(boolean dataPrivacyConsent) {
             this.dataPrivacyConsent = dataPrivacyConsent;
             return this;
         }
 
-        public UserBuilder newsletterConsent(boolean newsletterConsent ) {
+        public UserBuilder newsletterConsent(boolean newsletterConsent) {
             this.newsletterConsent = newsletterConsent;
             return this;
         }
 
-        public UserBuilder generalConditionsConsent(boolean generalConditionsConsent ) {
+        public UserBuilder generalConditionsConsent(boolean generalConditionsConsent) {
             this.generalConditionsConsent = generalConditionsConsent;
             return this;
         }
 
-
         public UserModel build() {
-
             UserModel user = new UserModel();
-
             user.setSocialTitle(this.socialTitle);
             user.setFirstName(this.firstName);
             user.setLastName(this.lastName);
@@ -122,5 +117,4 @@ public class UserFactory {
             return user;
         }
     }
-
 }

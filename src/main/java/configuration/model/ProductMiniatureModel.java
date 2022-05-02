@@ -14,36 +14,35 @@ public class ProductMiniatureModel extends BasePage {
     private WebElement thumbnail;
 
     @Getter
-    private WebElement productFinalPrice;
+    private float productFinalPrice;
 
     @Getter
-    private WebElement productRegularPrice;
+    private float productRegularPrice;
 
     public ProductMiniatureModel(WebDriver driver, String name, WebElement thumbnail, WebElement finalPrice) {
         super(driver);
         this.name = name;
         this.thumbnail = thumbnail;
-        this.productFinalPrice = finalPrice;
+        this.productFinalPrice = parsePrice(finalPrice);
     }
 
     public ProductMiniatureModel(WebDriver driver, String name, WebElement thumbnail, WebElement finalPrice, WebElement regularPrice) {
         super(driver);
         this.name = name;
         this.thumbnail = thumbnail;
-        this.productFinalPrice = finalPrice;
-        this.productRegularPrice = regularPrice;
+        this.productFinalPrice = parsePrice(finalPrice);
+        this.productRegularPrice = parsePrice(regularPrice);
     }
 
 
-    public float getProductFinalPrice() {
-
-        return parsePrice(productFinalPrice);
-    }
-
-    public float getProductRegularPrice() {
-
-        return parsePrice(productRegularPrice);
-    }
+//    public float getProductFinalPrice() {
+//        return parsePrice(productFinalPrice);
+//    }
+//
+//    public float getProductRegularPrice() {
+//
+//        return parsePrice(productRegularPrice);
+//    }
 
 
 

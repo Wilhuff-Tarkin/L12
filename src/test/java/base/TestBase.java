@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.Duration;
 import java.util.Locale;
+import java.util.Random;
 
 public class TestBase {
 
@@ -30,7 +31,7 @@ public class TestBase {
     private static YamlModel model;
     public WebDriver driver;
     public WebDriverWait driverWait;
-
+    protected Random random = new Random();
 
     @BeforeAll
     static void beforeAll() {

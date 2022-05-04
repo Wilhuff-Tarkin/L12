@@ -12,7 +12,7 @@ testData:
     iterations: 3
     customTxt: hasta la vista baby
     droppedPricesCatName: On sale
-    basketIterations: 5
+    basketIterations: 1
 
 
   test2:

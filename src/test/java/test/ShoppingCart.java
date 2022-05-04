@@ -69,7 +69,7 @@ public class ShoppingCart extends TestBase {
     protected void checkIfCartDisplaysCorrectNumberOfItems(HeaderPage headerPage, CartModel cartModel) {
 
         String cartCounter = headerPage.getCartProductsCount().getText();
-        cartCounter = cartCounter.substring(1, cartCounter.length() - 1);
+        cartCounter = cartCounter.replaceAll( "[^\\d]", "" );
         int productCountFromHeader = Integer.parseInt(cartCounter);
         assertThat("Product count in cart incorrect", productCountFromHeader == cartModel.getNumberOfItems());
 

@@ -1,5 +1,6 @@
 package test;
 
+import base.BasketBase;
 import configuration.model.CartModel;
 import configuration.model.OrderProductModel;
 import org.junit.jupiter.api.Test;
@@ -18,16 +19,12 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class Basket extends ShoppingCart {
+public class Basket extends BasketBase {
 
     private static final Logger log = LoggerFactory.getLogger("Basket");
-    int addToBasketIterations = Integer.parseInt(testEnvironment.returnValueAsString("basketIterations"));
-    String customizableText = testEnvironment.returnValueAsString("customTxt");
+
     int testItemQuantity = Integer.parseInt(testEnvironment.returnValueAsString("testItemQuantity"));
 
-    public Basket(WebDriver driver) {
-        super();
-    }
 
 
     @Test
@@ -124,22 +121,5 @@ public class Basket extends ShoppingCart {
     }
 
 
-    public void populateBasket(HeaderPage headerPage, CartModel cartModel) {
 
-        while (addToBasketIterations > 0) {
-            headerPage.enterRandomCategory();
-            String productName = enterRandomProduct();
-            ProductFullPage productFullPage = new ProductFullPage(driver, productName);
-            OrderProductModel orderedProduct = modelOrderedProduct(productFullPage);
-            cartModel.addAnother(orderedProduct);
-            productFullPage.addToCart(customizableText);
-            AddedToCartModalPage modal = new AddedToCartModalPage(driver);
-            checkIfPopupDisplayCorrectValues(modal, orderedProduct, cartModel);
-            log.info(productName + " successfully added to the cart");
-            modal.getContinueShopping().click();
-            checkIfCartDisplaysCorrectNumberOfItems(headerPage, cartModel);
-            addToBasketIterations--;
-        }
-        headerPage.getOpenCartBtn().click();
-    }
 }

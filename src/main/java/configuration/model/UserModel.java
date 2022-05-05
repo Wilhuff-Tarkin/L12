@@ -17,27 +17,35 @@ public class UserModel {
    private String firstName;
 
    @Setter
+   @Getter
    private String lastName;
 
    @Setter
+   @Getter
    private String email;
 
    @Setter
+   @Getter
    private String password;
 
    @Setter
+   @Getter
    private Date birthDate;
 
    @Setter
+   @Getter
    private boolean receiveOffersConsent;
 
    @Setter
+   @Getter
    private boolean dataPrivacyConsent;
 
    @Setter
+   @Getter
    private boolean newsletterConsent;
 
    @Setter
+   @Getter
    private boolean generalConditionsConsent;
 
    @Override

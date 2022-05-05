@@ -4,6 +4,7 @@ import configuration.model.CartModel;
 import configuration.model.OrderProductModel;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,31 +21,66 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class Basket extends ShoppingCart {
 
     private static final Logger log = LoggerFactory.getLogger("Basket");
-    int testIterations = Integer.parseInt(testEnvironment.returnValueAsString("basketIterations"));
+    int addToBasketIterations = Integer.parseInt(testEnvironment.returnValueAsString("basketIterations"));
     String customizableText = testEnvironment.returnValueAsString("customTxt");
+    int testItemQuantity = Integer.parseInt(testEnvironment.returnValueAsString("testItemQuantity"));
+
+    public Basket(WebDriver driver) {
+        super();
+    }
+
 
     @Test
     void basketShouldContainOrderedProducts() throws InterruptedException {
         CartModel cartModelFromOrder = new CartModel();
         HeaderPage headerPage = new HeaderPage(driver);
         populateBasket(headerPage, cartModelFromOrder);
-        headerPage.getOpenCartBtn().click();
         ShoppingCartPage cartPage = new ShoppingCartPage(driver);
         checkBasketContent(cartPage, cartModelFromOrder);
-//        checkBasketValue(cartPage, cartModelFromOrder);
-        changeQuantityOfFirstItem(cartPage, cartModelFromOrder, random.nextInt(3)+1);
         checkBasketValue(cartPage, cartModelFromOrder);
 
-        changeQuantityOfFirstItem(cartPage, cartModelFromOrder, 1);
-        checkBasketValue(cartPage, cartModelFromOrder);
+    }
 
+    @Test
+    void basketShouldRespondToQuantityChanges() throws InterruptedException {
+        CartModel cartModelFromOrder = new CartModel();
+        HeaderPage headerPage = new HeaderPage(driver);
+        populateBasket(headerPage, cartModelFromOrder);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
+        checkBasketContent(cartPage, cartModelFromOrder);
+
+        changeQuantityOfFirstItem(cartPage, cartModelFromOrder, testItemQuantity);
+        checkBasketValue(cartPage, cartModelFromOrder);
+        changeQuantityOfFirstItem(cartPage, cartModelFromOrder, testItemQuantity--);
+        checkBasketValue(cartPage, cartModelFromOrder);
+        changeQuantityOfFirstItem(cartPage, cartModelFromOrder, testItemQuantity++);
+        checkBasketValue(cartPage, cartModelFromOrder);
+    }
+
+    @Test
+    void basketShouldRespondToDeletions() throws InterruptedException {
+        CartModel cartModelFromOrder = new CartModel();
+        HeaderPage headerPage = new HeaderPage(driver);
+        populateBasket(headerPage, cartModelFromOrder);
+        ShoppingCartPage cartPage = new ShoppingCartPage(driver);
+
+        List <WebElement> productRows = cartPage.getOrderRows();
+
+        for (int i = 0; i < productRows.size(); i++) {
+            String productName = productRows.get(i).findElement(By.cssSelector(".product-line-info>.label")).getText();
+            productRows.get(i).findElement(By.cssSelector(".material-icons.float-xs-left")).click();
+
+            cartModelFromOrder.removeProduct(productName);
+            checkBasketValue(cartPage, cartModelFromOrder);
+        }
 
 
     }
 
 
 
-    private void changeQuantityOfFirstItem(ShoppingCartPage cartPage, CartModel cartModelFromOrder, int desiredQuantity) throws InterruptedException {
+
+        private void changeQuantityOfFirstItem(ShoppingCartPage cartPage, CartModel cartModelFromOrder, int desiredQuantity) throws InterruptedException {
         WebElement firstRowOfOrder = cartPage.getOrderRows().get(0);
         String nameOfFirstProduct = firstRowOfOrder.findElement(By.cssSelector(" :first-child .label")).getText();
         int quantityChange = cartPage.setQuantityTo(desiredQuantity, firstRowOfOrder);
@@ -84,15 +120,13 @@ public class Basket extends ShoppingCart {
         if (productWithoutMatch.size() == 0) {
             log.info("Shopping cart content as expected");
         }
-
         assertThat("Shopping cart content not as expected", productWithoutMatch.isEmpty());
-
     }
 
 
-    void populateBasket(HeaderPage headerPage, CartModel cartModel) {
+    public void populateBasket(HeaderPage headerPage, CartModel cartModel) {
 
-        while (testIterations > 0) {
+        while (addToBasketIterations > 0) {
             headerPage.enterRandomCategory();
             String productName = enterRandomProduct();
             ProductFullPage productFullPage = new ProductFullPage(driver, productName);
@@ -104,9 +138,8 @@ public class Basket extends ShoppingCart {
             log.info(productName + " successfully added to the cart");
             modal.getContinueShopping().click();
             checkIfCartDisplaysCorrectNumberOfItems(headerPage, cartModel);
-            testIterations--;
+            addToBasketIterations--;
         }
-
+        headerPage.getOpenCartBtn().click();
     }
-
 }

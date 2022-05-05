@@ -3,7 +3,9 @@ package base;
 import configuration.driver.Browser;
 import configuration.driver.DriverFactory;
 import configuration.handler.YamlReader;
+import configuration.model.CartModel;
 import configuration.model.EnvironmentModel;
+import configuration.model.OrderProductModel;
 import configuration.model.YamlModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +17,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pages.AddedToCartModalPage;
+import pages.HeaderPage;
 import pages.HomePage;
+import pages.ProductFullPage;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.Duration;
@@ -89,6 +95,7 @@ public class TestBase {
         log.info("Expected title is " + expectedTitle + " and actual title is " + actualTitle);
         return actualTitle.equalsIgnoreCase(expectedTitle);
     }
+
 
 
 }

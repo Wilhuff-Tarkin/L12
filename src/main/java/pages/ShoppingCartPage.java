@@ -100,10 +100,8 @@ public class ShoppingCartPage extends BasePage {
     }
 
     public int getCurrentQuantity(WebElement rowOfOrder) {
-
         return Integer.parseInt(rowOfOrder
                 .findElement(By.cssSelector(".js-cart-line-product-quantity.form-control")).getAttribute("value"));
-
     }
 
 }

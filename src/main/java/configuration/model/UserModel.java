@@ -42,17 +42,15 @@ public class UserModel {
 
    @Override
    public String toString() {
-      return "UserModel{" +
-              "socialTitle=" + socialTitle +
-              ", firstName='" + firstName + '\'' +
-              ", lastName='" + lastName + '\'' +
-              ", email='" + email + '\'' +
-              ", password='" + password + '\'' +
-              ", birthDate=" + birthDate +
-              ", receiveOffersConsent=" + receiveOffersConsent +
-              ", dataPrivacyConsent=" + dataPrivacyConsent +
-              ", newsletterConsent=" + newsletterConsent +
-              ", generalConditionsConsent=" + generalConditionsConsent +
-              '}';
+      return  "title " + socialTitle +
+              ", firstName: " + firstName + '\'' +
+              ", lastName: " + lastName + '\'' +
+              ", email: " + email + '\'' +
+              ", password: " + password + '\'' +
+              ", birthDate: " + birthDate +
+              ", receiveOffersConsent: " + receiveOffersConsent +
+              ", dataPrivacyConsent: " + dataPrivacyConsent +
+              ", newsletterConsent: " + newsletterConsent +
+              ", generalConditionsConsent: " + generalConditionsConsent;
    }
 }

@@ -68,6 +68,7 @@ public class ShoppingCart extends TestBase {
 
     protected void checkIfCartDisplaysCorrectNumberOfItems(HeaderPage headerPage, CartModel cartModel) {
 
+        driverWait.until(ExpectedConditions.visibilityOf(headerPage.getCartProductsCount()));
         String cartCounter = headerPage.getCartProductsCount().getText();
         cartCounter = cartCounter.replaceAll( "[^\\d]", "" );
         int productCountFromHeader = Integer.parseInt(cartCounter);

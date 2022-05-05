@@ -22,22 +22,31 @@ public class CartModel {
     private int numberOfItems;
 
 
-
-    public void addAnother (OrderProductModel product) {
-
-
-        if (checkIfThisIsAlreadyOnTheList(product.getName())){
-                increaseQuantity(product);
+    public void addAnother(OrderProductModel product) {
+        if (checkIfThisIsAlreadyOnTheList(product.getName())) {
+            increaseQuantity(product);
         } else {
-            //dodaj produkt do listy
             cartContent.add(product);
+//            product.setQuantity(quantity);
             numberOfItems++;
-
         }
-
     }
 
-    public float getTotalOrderCost () {
+    public void removeProduct(String productName) {
+
+        if (checkIfThisIsAlreadyOnTheList(productName)) {
+            for (int i = 0; i < cartContent.size(); i++) {
+                if (cartContent.get(i).getName().equals(productName)) {
+                    cartContent.remove(i);
+                    log.info(productName + " removed from model cart.");
+                }
+            }
+        } else {
+            log.info("No such product in model basket: " + productName);
+        }
+    }
+
+    public float getTotalOrderCost() {
         totalOrderCost = 0;
         for (OrderProductModel productOrderModel : cartContent) {
             totalOrderCost += (productOrderModel.getPrice() * productOrderModel.getQuantity());
@@ -45,7 +54,7 @@ public class CartModel {
         return Float.parseFloat(df.format(totalOrderCost).replaceAll(",", "."));
     }
 
-    public int getNumberOfItems () {
+    public int getNumberOfItems() {
 
         numberOfItems = 0;
 
@@ -57,36 +66,19 @@ public class CartModel {
     }
 
 
-
     private void increaseQuantity(OrderProductModel product) {
 
         int additionalQuantity = product.getQuantity();
 
         for (int i = 0; i < cartContent.size(); i++) {
-            if (cartContent.get(i).getName().contains(product.getName())){
+            if (cartContent.get(i).getName().contains(product.getName())) {
                 OrderProductModel productAlreadyOnTheList = cartContent.get(i);
-                productAlreadyOnTheList.setQuantity(productAlreadyOnTheList.getQuantity()+additionalQuantity);
+                productAlreadyOnTheList.setQuantity(productAlreadyOnTheList.getQuantity() + additionalQuantity);
             }
         }
     }
 
     private boolean checkIfThisIsAlreadyOnTheList(String name) {
-
-//        boolean checkResult = false;
-//
-//        if (cartContent.size()<1) {
-//            log.info("Cart was empty");
-//            return checkResult;
-//        }
-//
-//        for (int i = 0; i < cartContent.size(); i++) {
-//            if (cartContent.get(i).getName().contains(name)){
-//                checkResult = true;
-//            }
-//        }
-//    return checkResult;
-
-
         return cartContent.stream().anyMatch(productOrderModel -> productOrderModel.getName().equals(name));
 
     }

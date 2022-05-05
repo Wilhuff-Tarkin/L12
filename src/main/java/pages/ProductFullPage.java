@@ -60,7 +60,7 @@ public class ProductFullPage extends BasePage {
 
 
     public int setRandomQuantity() {
-        int quantity = random.nextInt(5) + 1;
+        int quantity = random.nextInt(3) + 1;
         log.info("Desired quantity: " + quantity);
         for (int i = 1; i < quantity; i++) {
             wait.until(ExpectedConditions.elementToBeClickable(quantityUp));

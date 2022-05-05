@@ -9,11 +9,11 @@ testData:
     envName: test1
     appUrl: http://146.59.32.4/
     timeout: 3
-    iterations: 3
+    iterations: 1
     customTxt: hasta la vista baby
     droppedPricesCatName: On sale
-    basketIterations: 1
-
+    basketIterations: 3
+    testItemQuantity: 5
 
   test2:
     envName: test2
@@ -23,6 +23,7 @@ testData:
     customTxt: hasta la vista baby
     droppedPricesCatName: On sale
     basketIterations: 5
+    testItemQuantity: 5
 
 
 
@@ -34,6 +35,7 @@ testData:
     customTxt: hasta la vista baby
     droppedPricesCatName: On sale
     basketIterations: 5
+    testItemQuantity: 5
 
 
 

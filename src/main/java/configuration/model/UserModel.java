@@ -1,5 +1,6 @@
 package configuration.model;
 
+import com.github.javafaker.DateAndTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +31,19 @@ public class UserModel {
 
    @Setter
    @Getter
-   private Date birthDate;
+   private String address;
+
+   @Setter
+   @Getter
+   private String city;
+
+   @Setter
+   @Getter
+   private String postalCode;
+
+   @Setter
+   @Getter
+   private String birthDate;
 
    @Setter
    @Getter
@@ -50,15 +63,20 @@ public class UserModel {
 
    @Override
    public String toString() {
-      return  "title " + socialTitle +
-              ", firstName: " + firstName + '\'' +
-              ", lastName: " + lastName + '\'' +
-              ", email: " + email + '\'' +
-              ", password: " + password + '\'' +
-              ", birthDate: " + birthDate +
-              ", receiveOffersConsent: " + receiveOffersConsent +
-              ", dataPrivacyConsent: " + dataPrivacyConsent +
-              ", newsletterConsent: " + newsletterConsent +
-              ", generalConditionsConsent: " + generalConditionsConsent;
+      return "UserModel{" +
+              "socialTitle=" + socialTitle +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              ", password='" + password + '\'' +
+              ", address='" + address + '\'' +
+              ", city='" + city + '\'' +
+              ", postalCode=" + postalCode +
+              ", birthDate=" + birthDate +
+              ", receiveOffersConsent=" + receiveOffersConsent +
+              ", dataPrivacyConsent=" + dataPrivacyConsent +
+              ", newsletterConsent=" + newsletterConsent +
+              ", generalConditionsConsent=" + generalConditionsConsent +
+              '}';
    }
 }

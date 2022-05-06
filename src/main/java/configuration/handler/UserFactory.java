@@ -22,17 +22,28 @@ public class UserFactory {
                 .firstName(faker.name().firstName())
                 .lastName(faker.name().lastName())
                 .email(fakeValuesService.bothify("????##@gmail.com"))
-                .password(fakeValuesService.letterify("???????"))
-                .birthDate(faker.date().birthday())
+                .address(faker.address().streetAddress())
+                .city(faker.address().cityName())
+                .postalCode(faker.numerify("##-###"))
+                .password(fakeValuesService.bothify("?#?#?#?"))
+                .birthDate(fakeBirthday(faker))
                 .receiveOffersConsent(faker.random().nextBoolean())
-                .dataPrivacyConsent(faker.random().nextBoolean())
+                .dataPrivacyConsent(true)
                 .newsletterConsent(faker.random().nextBoolean())
-                .generalConditionsConsent(faker.random().nextBoolean())
+                .generalConditionsConsent(true)
                 .build();
         return userModel;
     }
 
+    private static String fakeBirthday(Faker faker) {
+        StringBuilder birthday = new StringBuilder();
+        birthday.append(faker.date().birthday().getMonth()).append("/").append(faker.random().nextInt(1, 28)).append("/")
+                .append(faker.random().nextInt(1930, 2001));
+        return String.valueOf(birthday);
+    }
+
     public static UserModel getAlreadyRegisteredUser() {
+        //todo
         return new UserModel();
     }
 
@@ -42,7 +53,10 @@ public class UserFactory {
         private String lastName;
         private String email;
         private String password;
-        private Date birthDate;
+        private String address;
+        private String city;
+        private String postalCode;
+        private String birthDate;
         private boolean receiveOffersConsent;
         private boolean dataPrivacyConsent;
         private boolean newsletterConsent;
@@ -72,12 +86,27 @@ public class UserFactory {
             return this;
         }
 
+        public UserBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public UserBuilder city(String city) {
+            this.city = city;
+            return this;
+        }
+
         public UserBuilder password(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder birthDate(Date birthDate) {
+        public UserBuilder postalCode(String postalCode) {
+            this.postalCode = postalCode;
+            return this;
+        }
+
+        public UserBuilder birthDate(String birthDate) {
             this.birthDate = birthDate;
             return this;
         }
@@ -109,6 +138,9 @@ public class UserFactory {
             user.setLastName(this.lastName);
             user.setEmail(this.email);
             user.setPassword(this.password);
+            user.setAddress(this.address);
+            user.setCity(this.city);
+            user.setPostalCode(this.postalCode);
             user.setBirthDate(this.birthDate);
             user.setReceiveOffersConsent(this.receiveOffersConsent);
             user.setDataPrivacyConsent(this.dataPrivacyConsent);

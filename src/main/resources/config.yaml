@@ -12,8 +12,9 @@ testData:
     iterations: 1
     customTxt: hasta la vista baby
     droppedPricesCatName: On sale
-    basketIterations: 3
+    basketIterations: 1
     testItemQuantity: 5
+    country: 14
 
   test2:
     envName: test2
@@ -24,6 +25,7 @@ testData:
     droppedPricesCatName: On sale
     basketIterations: 5
     testItemQuantity: 5
+    country: 21
 
 
 
@@ -36,6 +38,7 @@ testData:
     droppedPricesCatName: On sale
     basketIterations: 5
     testItemQuantity: 5
+    country: 14
 
 
 

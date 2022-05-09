@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -96,6 +97,9 @@ public class TestBase {
         return actualTitle.equalsIgnoreCase(expectedTitle);
     }
 
-
+    public void clickOnElement(WebElement element) {
+        driverWait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+    }
 
 }

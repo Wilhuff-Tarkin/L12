@@ -10,7 +10,7 @@ public class OpenStore extends TestBase {
 
     @Test
     void shouldOpenStore() throws InterruptedException {
-
+//todo wco?
         Thread.sleep(2500);
         assertThat(true, equalTo(true));
     }

@@ -47,12 +47,13 @@ public class BasePage {
 
 
     public void waitForPageLoaded() {
-
-
-
-
+//todo
     }
 
+    public void clickOnElement(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+    }
 
 
 }

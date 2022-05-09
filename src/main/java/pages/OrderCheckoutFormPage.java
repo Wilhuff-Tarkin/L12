@@ -4,6 +4,7 @@ import configuration.model.EnvironmentModel;
 import configuration.model.SocialTitle;
 import configuration.model.UserModel;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -98,7 +99,7 @@ public class OrderCheckoutFormPage extends BasePage {
     private WebElement selectCountry;
 
     @Getter
-    @FindBy(css = ".custom-radio.float-xs-left")
+    @FindBy(css = ".row.delivery-option")
     private List<WebElement> radioDeliveries;
 
     @Getter
@@ -128,6 +129,9 @@ public class OrderCheckoutFormPage extends BasePage {
     @Getter
     @FindBy(css = "#modal button.close")
     private WebElement modalClose;
+
+    @Getter
+    String chosenDelivery;
 
 
 
@@ -200,7 +204,9 @@ public class OrderCheckoutFormPage extends BasePage {
 
     public void chooseDelivery() {
         wait.until(ExpectedConditions.visibilityOf(confirmDeliveryOptionBtn));
-        radioDeliveries.get(random.nextInt(radioDeliveries.size())).click();
+        WebElement delivery = radioDeliveries.get(random.nextInt(radioDeliveries.size()));
+        chosenDelivery = delivery.findElement(By.cssSelector(".carrier-name")).getText();
+        clickOnElement(delivery.findElement(By.cssSelector(".custom-radio")));
         confirmDeliveryOptionBtn.click();
     }
 

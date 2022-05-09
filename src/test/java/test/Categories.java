@@ -29,7 +29,7 @@ public class Categories extends TestBase {
     private void verifyCategory(WebElement categoryLink) {
         String categoryLabel = categoryLink.getText();
         log.info(">>>> Testing: " + categoryLabel.toUpperCase(Locale.ROOT));
-        categoryLink.click();
+        clickOnElement(categoryLink);
         CategoryPage page = new CategoryPage(driver);
 
         nameOfCategoryShouldMatchHeader(categoryLabel, page);
@@ -45,7 +45,7 @@ public class Categories extends TestBase {
         log.info("Found " + categories.size() + " main categories");
 
         for (int i = 0; i < categories.size(); i++) {
-            categories.get(i).click();
+            clickOnElement(categories.get(i));
             CategoryPage page = new CategoryPage(driver);
             log.info(">>>> Looking for subcategories in " + page.getHeader().getText());
 

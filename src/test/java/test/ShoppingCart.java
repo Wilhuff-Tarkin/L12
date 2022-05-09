@@ -42,7 +42,7 @@ public class ShoppingCart extends BasketBase {
             checkIfPopupDisplayCorrectValues(modal, orderedProduct, cartModel);
             log.info(productName + " successfully added to the cart");
 
-            modal.getContinueShopping().click();
+            clickOnElement(modal.getContinueShopping());
             checkIfCartDisplaysCorrectNumberOfItems(headerPage, cartModel);
             addToBasketIterations--;
         }

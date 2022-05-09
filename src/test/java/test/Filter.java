@@ -48,7 +48,7 @@ public class Filter extends TestBase {
 
     private CategoryPage goToArtPage() {
         HeaderPage headerPage = new HeaderPage(driver);
-        headerPage.getArt().click();
+        clickOnElement(headerPage.getArt());
         CategoryPage artPage = new CategoryPage(driver);
         return artPage;
     }

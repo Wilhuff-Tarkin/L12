@@ -36,7 +36,7 @@ public class PricesDrop extends TestBase {
         ProductMiniatureModel miniatureProduct = productsOnSale.getRandomProduct();
         String productName = miniatureProduct.getName();
         log.info("Random discounted product selected: " + productName);
-        miniatureProduct.getThumbnail().click();
+        clickOnElement(miniatureProduct.getThumbnail());
         ProductFullPage productPage = new ProductFullPage(driver, productName);
         discountTagShouldBePresent(productPage);
         shouldHaveStandardAndDiscountPrice(productPage);
@@ -45,7 +45,7 @@ public class PricesDrop extends TestBase {
 
     private void getPricesDropCategory() {
         FooterPage footerPage = new FooterPage(driver);
-        footerPage.getPricedDropBtn().click();
+        clickOnElement(footerPage.getPricedDropBtn());
     }
 
     private void discountedPricesShouldBe20percentLower2(ProductFullPage productPage) {

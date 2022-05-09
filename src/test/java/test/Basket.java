@@ -65,7 +65,7 @@ public class Basket extends BasketBase {
 
         for (int i = 0; i < productRows.size(); i++) {
             String productName = productRows.get(i).findElement(By.cssSelector(".product-line-info>.label")).getText();
-            productRows.get(i).findElement(By.cssSelector(".material-icons.float-xs-left")).click();
+            clickOnElement(productRows.get(i).findElement(By.cssSelector(".material-icons.float-xs-left")));
 
             cartModelFromOrder.removeProduct(productName);
             checkBasketValue(cartPage, cartModelFromOrder);

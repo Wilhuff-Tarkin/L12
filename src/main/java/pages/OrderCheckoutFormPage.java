@@ -14,132 +14,104 @@ import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderCheckoutFormPage extends BasePage {
 
     private static final Logger log = LoggerFactory.getLogger("Checkout page");
-
-
+    @Getter
+    String chosenDelivery;
+    @Getter
+    String chosenPayment;
     @Getter
     @FindBy(css = ".custom-radio [value=\"1\"]")
     private WebElement mrSocialTitle;
-
     @Getter
     @FindBy(css = ".custom-radio [value=\"2\"]")
     private WebElement mrsSocialTitle;
-
     @Getter
     @FindBy(css = ".form-control[name=\"firstname\"]")
     private WebElement firstNameField;
-
     @Getter
     @FindBy(css = ".form-control[name=\"lastname\"]")
     private WebElement lastNameField;
-
     @Getter
     @FindBy(css = ".form-control[name=\"email\"]")
     private WebElement emailField;
-
     @Getter
     @FindBy(css = ".input-group.js-parent-focus [name=\"password\"]")
     private WebElement passwordField;
-
     @Getter
     @FindBy(css = ".form-control[name=\"birthday\"]")
     private WebElement birthdayField;
-
     @Getter
     @FindBy(css = ".custom-checkbox input[name=\"optin\"]")
     private WebElement receiveOffersFromPartners;
-
     @Getter
     @FindBy(css = ".custom-checkbox input[name=\"customer_privacy\"]")
     private WebElement customerDataPrivacy;
-
     @Getter
     @FindBy(css = ".custom-checkbox input[name=\"newsletter\"]")
     private WebElement signUpForNewsletter;
-
     @Getter
     @FindBy(css = ".custom-checkbox input[name=\"psgdpr\"]")
     private WebElement generalConditionsAndPrivacyPolicy;
-
     @Getter
     @FindBy(css = ".continue.btn.btn-primary.float-xs-right[data-link-action=\"register-new-customer\"]")
     private WebElement continueToAddressBtn;
-
     @Getter
     @FindBy(css = ".continue.btn.btn-primary.float-xs-right[name=\"confirm-addresses\"]\n")
     private WebElement confirmAddressBtn;
-
     @Getter
     @FindBy(css = ".continue.btn.btn-primary.float-xs-right[name=\"confirmDeliveryOption\"]\n")
     private WebElement confirmDeliveryOptionBtn;
-
     @Getter
     @FindBy(css = ".form-control[name=\"address1\"]")
     private WebElement addressField;
-
     @Getter
     @FindBy(css = ".form-control[name=\"city\"]")
     private WebElement cityField;
-
     @Getter
     @FindBy(css = ".form-control[name=\"postcode\"]")
     private WebElement postCodeField;
-
     @Getter
     @FindBy(css = ".form-control.form-control-select[name=\"id_state\"]")
     private WebElement selectState;
-
     @Getter
     @FindBy(css = ".form-control.form-control-select[name=\"id_country\"]")
     private WebElement selectCountry;
-
     @Getter
     @FindBy(css = ".row.delivery-option")
     private List<WebElement> radioDeliveries;
-
     @Getter
     @FindBy(css = ".custom-radio.float-xs-left #payment-option-2")
     private WebElement payByBankWireRadioBtn;
-
+    @Getter
+    @FindBy(css = "#payment-option-2-container")
+    private WebElement payByBankWireContainer;
     @Getter
     @FindBy(css = ".custom-checkbox [name=\"conditions_to_approve[terms-and-conditions]\"]")
     private WebElement termsAndServiceConditionsCheck;
-
     @Getter
     @FindBy(css = ".btn.btn-primary.center-block")
     private WebElement placeOrderButton;
-
     @Getter
     @FindBy(css = ".payment-options")
     private WebElement paymentOptions;
-
     @Getter
     @FindBy(css = "#cta-terms-and-conditions-0")
     private WebElement termsAndServiceConditions;
-
     @Getter
     @FindBy(css = ".modal-dialog .js-modal-content")
     private WebElement termsAndServiceModal;
-
     @Getter
     @FindBy(css = "#modal button.close")
     private WebElement modalClose;
-
-    @Getter
-    String chosenDelivery;
-
-
 
     public OrderCheckoutFormPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-
 
     public void fillPersonalInformation(UserModel user) throws InterruptedException {
         setSocialTitle(user.getSocialTitle());
@@ -150,7 +122,7 @@ public class OrderCheckoutFormPage extends BasePage {
         passwordField.sendKeys(user.getPassword());
         birthdayField.sendKeys(user.getBirthDate());
         setCheckboxes(user);
-        //todo betterwait
+        //todo need better wait below
         Thread.sleep(1334);
         continueToAddressBtn.click();
 
@@ -164,25 +136,27 @@ public class OrderCheckoutFormPage extends BasePage {
         setRandomState();
         postCodeField.sendKeys(user.getPostalCode());
         setCountry(testEnvironment.returnValueAsString("country"));
-        //todo betterwait
+        //todo need better wait below
         Thread.sleep(1334);
         confirmAddressBtn.click();
     }
 
 
-
     private void setCheckboxes(UserModel user) {
 
-        if (user.isDataPrivacyConsent()){
-            receiveOffersFromPartners.click();}
-        if (user.isDataPrivacyConsent()){
-            customerDataPrivacy.click();}
-        if (user.isNewsletterConsent()){
-            signUpForNewsletter.click();}
-        if (user.isGeneralConditionsConsent()){
-            generalConditionsAndPrivacyPolicy.click();}
+        if (user.isDataPrivacyConsent()) {
+            receiveOffersFromPartners.click();
+        }
+        if (user.isDataPrivacyConsent()) {
+            customerDataPrivacy.click();
+        }
+        if (user.isNewsletterConsent()) {
+            signUpForNewsletter.click();
+        }
+        if (user.isGeneralConditionsConsent()) {
+            generalConditionsAndPrivacyPolicy.click();
+        }
     }
-
 
     private void setSocialTitle(Enum socialTitle) {
         if (socialTitle.equals(SocialTitle.MR)) {
@@ -211,7 +185,9 @@ public class OrderCheckoutFormPage extends BasePage {
     }
 
     public void choosePayment() {
+        //todo remove hardcodded values
         wait.until(ExpectedConditions.visibilityOf(paymentOptions));
+        chosenPayment = "Bank transfer";
         payByBankWireRadioBtn.click();
     }
 
@@ -221,7 +197,7 @@ public class OrderCheckoutFormPage extends BasePage {
 
         boolean conditionsNotEmpty = !termsAndServiceModal.getText().isEmpty();
 
-        if (termsAndServiceModal.getText().isEmpty()){
+        if (termsAndServiceModal.getText().isEmpty()) {
             log.error("Empty terms and conditions");
         } else {
             log.info("Terms and conditions read");
@@ -234,7 +210,4 @@ public class OrderCheckoutFormPage extends BasePage {
         termsAndServiceConditionsCheck.click();
         placeOrderButton.click();
     }
-
-
-
 }

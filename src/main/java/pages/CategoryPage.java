@@ -55,18 +55,7 @@ public class CategoryPage extends BasePage{
                 '}';
     }
 
-//    public CategoryPage setAllProducts() {
-//
-//        for (WebElement product : productsOnCategoryPage) {
-//            String name = product.findElement(By.cssSelector(".product .product-title")).getText();
-//            productsList.add(new ProductMiniaturePage(driver, product));
-//        }
-//        return this;
-//    }
-
     public boolean checkIfCategoryContainsSubCategories() {
                 return subCategories.size()>0;
     }
-
-
 }

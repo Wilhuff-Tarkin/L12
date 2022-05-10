@@ -7,10 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
 
-
-//    @FindBy(id = "selectContinents")
-//    private WebElement continents;
-
     @FindBy(css = ".no-account a")
     private WebElement createUserButton;
 
@@ -19,16 +15,8 @@ public class LoginPage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-
-
-
     public LoginPage clickCreateUserBtn() {
         createUserButton.click();
         return this;
     }
-
-
-
-
-
 }

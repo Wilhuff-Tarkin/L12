@@ -30,12 +30,7 @@ public class ShoppingCartPage extends BasePage {
     @FindBy(css = "#cart-subtotal-products .value")
     private WebElement subTotalValue;
 
-
-
-
     private List<OrderProductModel> orderedItemsList = new ArrayList<>();
-
-
 
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
@@ -56,7 +51,7 @@ public class ShoppingCartPage extends BasePage {
             float price = parsePrice(orderRows.get(i).findElement(By.cssSelector(".current-price .price")));
             WebElement quantityField = orderRows.get(i).findElement(By.cssSelector(".js-cart-line-product-quantity.form-control"));
             int quantity = Integer.parseInt(quantityField.getAttribute("value"));
-            if (checkIfproductHaveRegularPrice(orderRows.get(i))){
+            if (checkIfProductHaveRegularPrice(orderRows.get(i))){
                 float regularPrice = parsePrice(orderRows.get(i).findElement(By.cssSelector(".regular-price")));
                 orderedItemsList.add(new OrderProductModel(name, price, regularPrice, quantity));
             } else {
@@ -67,15 +62,14 @@ public class ShoppingCartPage extends BasePage {
         return this;
     }
 
-    private boolean checkIfproductHaveRegularPrice(WebElement webElement) {
+    private boolean checkIfProductHaveRegularPrice(WebElement webElement) {
         return !webElement.findElements(By.cssSelector(".regular-price")).isEmpty();
     }
 
-    public int setQuantityTo(int desiredQuantity, WebElement firstRowOfOrder) throws InterruptedException {
+    public int setQuantityTo(int desiredQuantity, WebElement firstRowOfOrder) {
         wait.until(ExpectedConditions.visibilityOf(firstRowOfOrder));
         int quantityChange = 0;
         int currentQuantity = getCurrentQuantity(firstRowOfOrder);
-        float valueBeforeChange = getCurrentRowValue(firstRowOfOrder);
 
         while (!(currentQuantity == desiredQuantity)){
             if (desiredQuantity > currentQuantity){
@@ -103,5 +97,4 @@ public class ShoppingCartPage extends BasePage {
         return Integer.parseInt(rowOfOrder
                 .findElement(By.cssSelector(".js-cart-line-product-quantity.form-control")).getAttribute("value"));
     }
-
 }

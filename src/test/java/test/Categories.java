@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Categories extends TestBase {
 
-    private static final Logger log = LoggerFactory.getLogger("categories");
+    private static final Logger log = LoggerFactory.getLogger("Categories");
 
     @Test
     void categoriesTest() {

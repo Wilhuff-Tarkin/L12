@@ -12,7 +12,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 public class OrderConfirmationPage extends BasePage {
 
@@ -35,9 +37,6 @@ public class OrderConfirmationPage extends BasePage {
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-
-
-
     public OrderConfirmationPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -46,10 +45,9 @@ public class OrderConfirmationPage extends BasePage {
     public OrderConfirmationPage populateItemsList() {
         wait.until(ExpectedConditions.visibilityOf(orderConfirmation));
         itemsOnOrderConfirmation = new ArrayList<>();
-//        waitForListSizeIsHigherThanZero(orderedItemsList);
 
         for (WebElement orderRow : orderedItemsList) {
-            //todo handle sizes and colors
+            //todo handle sizes and colors as well
             String name = StringUtils.substringBefore(orderRow.findElement(By.cssSelector(".col-sm-4.col-xs-9.details")).getText(), " - ");
             float price = parsePrice(orderRow.findElement(By.cssSelector((".col-xs-4.text-sm-center.text-xs-left"))));
             int quantity = Integer.parseInt(orderRow.findElement(By.cssSelector(".col-sm-6.col-xs-12.qty .row :nth-child(2)")).getText());
@@ -73,20 +71,24 @@ public class OrderConfirmationPage extends BasePage {
             if (detailLine.startsWith("Shipping method: ")) {
                 shippingMethod = parseOrderDetail(detailLine, "Shipping method: ");
             }
-
-
         }
     }
 
     private String parseOrderDetail(String detailLine, String leading) {
-        return detailLine.replaceAll(leading, "");
+        String orderDetail = detailLine;
+
+        List<String> toRemove = Arrays.asList("Pick up in-store", "Delivery next day!", leading);
+        orderDetail=toRemove.stream()
+                .map(toRem-> (Function<String,String>) s->s.replaceAll(toRem, ""))
+                .reduce(Function.identity(), Function::andThen)
+                .apply(orderDetail);
+        return orderDetail;
     }
 
     public List<OrderProductModel> getItemsOnOrderConfirmation() {
         populateItemsList();
         return itemsOnOrderConfirmation;
     }
-
 
     public float getTotalOrderCost() {
         totalOrderCost = 0;
@@ -95,5 +97,4 @@ public class OrderConfirmationPage extends BasePage {
         }
         return Float.parseFloat(df.format(totalOrderCost).replaceAll(",", "."));
     }
-
 }

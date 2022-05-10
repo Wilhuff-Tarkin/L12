@@ -1,24 +1,19 @@
 package test;
 
 import base.BasketBase;
-import base.TestBase;
 import configuration.model.CartModel;
 import configuration.model.OrderProductModel;
-import configuration.model.ProductMiniatureModel;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pages.*;
-
-import static org.hamcrest.MatcherAssert.assertThat;
+import pages.AddedToCartModalPage;
+import pages.HeaderPage;
+import pages.ProductFullPage;
 
 
 public class ShoppingCart extends BasketBase {
 
     private static final Logger log = LoggerFactory.getLogger("Shopping cart");
-
 
 
     @Test
@@ -36,7 +31,6 @@ public class ShoppingCart extends BasketBase {
             cartModel.addAnother(orderedProduct);
 
             productFullPage.addToCart(customizableText);
-
             AddedToCartModalPage modal = new AddedToCartModalPage(driver);
 
             checkIfPopupDisplayCorrectValues(modal, orderedProduct, cartModel);
@@ -47,12 +41,4 @@ public class ShoppingCart extends BasketBase {
             addToBasketIterations--;
         }
     }
-
-
-
-
-
-
-
-
 }

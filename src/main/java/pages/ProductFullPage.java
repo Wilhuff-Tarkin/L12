@@ -44,7 +44,6 @@ public class ProductFullPage extends BasePage {
     private WebElement saveCustomizationBtn;
 
     public ProductFullPage(WebDriver driver, String name) {
-
         super(driver);
         this.name = name;
         PageFactory.initElements(driver, this);

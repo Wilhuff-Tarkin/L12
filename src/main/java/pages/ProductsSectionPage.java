@@ -22,16 +22,13 @@ public class ProductsSectionPage extends BasePage {
     @FindBy(css = ".product")
     private List<WebElement> productsOnPage = new ArrayList<>();
 
-
     @Getter
     @FindBy(css = ".product-flag.discount")
     private List<WebElement> discountTagsByProducts = new ArrayList<>();
 
     @Getter
     @FindBy(css = ".product-price-and-shipping")
-//    @FindBy(css = ".product-price-and-shipping .price")
     private List<WebElement> finalPrices = new ArrayList<>();
-
 
     private List<ProductMiniatureModel> productsList = new ArrayList<>();
 
@@ -41,10 +38,7 @@ public class ProductsSectionPage extends BasePage {
     public ProductsSectionPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-
     }
-
-
 
     public List<ProductMiniatureModel> getProductsList() {
         setAllProducts();
@@ -54,26 +48,23 @@ public class ProductsSectionPage extends BasePage {
     public ProductsSectionPage setAllProducts() {
 
         for (int i = 0; i < productsOnPage.size(); i++) {
-
-                String name = productsOnPage.get(i).findElement(By.cssSelector(".h3.product-title")).getText();
-                WebElement thumbnail = productsOnPage.get(i).findElement(By.cssSelector(".thumbnail.product-thumbnail"));
-                WebElement price = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .price"));
-                if (checkIfproductHaveRegularPrice(productsOnPage.get(i))){
-                    WebElement regularPrice = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .regular-price"));
-                    productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price, regularPrice));
-                } else {
-                    productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price));
-                }
-//                logger.info("Adding item " + name + " to the list");
+            String name = productsOnPage.get(i).findElement(By.cssSelector(".h3.product-title")).getText();
+            WebElement thumbnail = productsOnPage.get(i).findElement(By.cssSelector(".thumbnail.product-thumbnail"));
+            WebElement price = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .price"));
+            if (checkIfProductHaveRegularPrice(productsOnPage.get(i))) {
+                WebElement regularPrice = productsOnPage.get(i).findElement(By.cssSelector(".product-price-and-shipping .regular-price"));
+                productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price, regularPrice));
+            } else {
+                productsList.add(new ProductMiniatureModel(driver, name, thumbnail, price));
             }
-                logger.info("Added " + productsList.size() + " product(s) to the list");
-            return this;
-}
-
-    private boolean checkIfproductHaveRegularPrice(WebElement webElement) {
-        return !webElement.findElements(By.cssSelector(".product-price-and-shipping .regular-price")).isEmpty();
         }
+        logger.info("Added " + productsList.size() + " product(s) to the list");
+        return this;
+    }
 
+    private boolean checkIfProductHaveRegularPrice(WebElement webElement) {
+        return !webElement.findElements(By.cssSelector(".product-price-and-shipping .regular-price")).isEmpty();
+    }
 
     public ProductMiniatureModel getRandomProduct() {
         setAllProducts();
@@ -85,12 +76,10 @@ public class ProductsSectionPage extends BasePage {
         return productsOnPage;
     }
 
-    public List <Float> getFinalPrices () {
-
+    public List<Float> getFinalPrices() {
         for (int i = 0; i < finalPrices.size(); i++) {
             pricesInSection.add(parsePrice(finalPrices.get(i).findElement(By.cssSelector(" .price"))));
         }
         return pricesInSection;
     }
-
 }

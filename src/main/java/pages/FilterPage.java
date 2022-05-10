@@ -23,8 +23,6 @@ public class FilterPage extends BasePage {
     @FindBy(css = ".text-uppercase.h6.hidden-sm-down")
     private WebElement filterByLabel;
 
-
-
     @Getter
     @FindBy(css = "div[id^='slider-range'] > a:nth-of-type(1)")
     private WebElement sliderHandleLeft;
@@ -41,7 +39,7 @@ public class FilterPage extends BasePage {
         super(driver);
     }
 
-    public void setPriceFilter(int from, int to) throws InterruptedException {
+    public void setPriceFilter(int from, int to) {
         int minPriceValue = getPriceScope(0);
         int maxPriceValue = getPriceScope(1);
 

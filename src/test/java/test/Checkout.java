@@ -13,12 +13,10 @@ import pages.OrderCheckoutFormPage;
 import pages.OrderConfirmationPage;
 import pages.ShoppingCartPage;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-
 
 public class Checkout extends BasketBase {
 
@@ -44,33 +42,34 @@ public class Checkout extends BasketBase {
 
         OrderConfirmationPage orderConfirmation = new OrderConfirmationPage(driver);
         productsOnConfirmationPageAsExpected(orderConfirmation, cartModelFromOrder);
-        checkPaymentAndShipping(orderConfirmation, orderCheckout);
-
-
-
-//        on order confirmation page check if all added products are displayed and have all correct details (names, prices quantities)
-//        o check if Payment method and Shipping method is matching what you selected in last step
-//        o save Order reference number
-//        o go to order history
-//        o find Order reference on the list
-//        o check if date, total price, payment and status is correct
-//        o click on details
-//        o check if all added products are displayed and have all correct details (names, prices quantities)
-//        o check if Delivery address and Invoice address have values that you used in checkout
+        checkShippingMethod(orderConfirmation, orderCheckout);
+        checkPaymentMethod(orderConfirmation, orderCheckout);
+        verifyOrderHistory(orderConfirmation, orderCheckout);
     }
 
-    private void checkPaymentAndShipping(OrderConfirmationPage orderConfirmation, OrderCheckoutFormPage orderCheckout) {
+    private void verifyOrderHistory(OrderConfirmationPage orderConfirmation, OrderCheckoutFormPage orderCheckout) {
+
+        String orderRef = orderConfirmation.getOrderReference();
+
+        //todo
+        //        o go to order history
+        //        o find Order reference on the list
+        //        o check if date, total price, payment and status is correct
+        //        o click on details
+        //        o check if all added products are displayed and have all correct details (names, prices quantities)
+        //        o check if Delivery address and Invoice address have values that you used in checkout
+    }
+
+    private void checkShippingMethod(OrderConfirmationPage orderConfirmation, OrderCheckoutFormPage orderCheckout) {
 
         orderConfirmation.setOrderDetails();
-        System.out.println("order shipin: " + orderConfirmation.getShippingMethod());
+        assertThat("Delivery not as requested", orderConfirmation.getShippingMethod().contains(orderCheckout.getChosenDelivery()));
+    }
 
-        //order shipin: TesterSii
-        //Pick up in-store
+    private void checkPaymentMethod(OrderConfirmationPage orderConfirmation, OrderCheckoutFormPage orderCheckout) {
 
-        //todo poprawic zeby order shipin nie bral tej drugiej linii
-
-
-        System.out.println("checkout shipin: " + orderCheckout.getChosenDelivery());
+        orderConfirmation.setOrderDetails();
+        assertThat("Payment not as requested", orderConfirmation.getPaymentMethod().contains(orderCheckout.getChosenPayment()));
     }
 
     private void productsOnConfirmationPageAsExpected(OrderConfirmationPage orderConfirmation, CartModel cartModelFromOrder) {

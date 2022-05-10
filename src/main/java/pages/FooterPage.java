@@ -12,12 +12,8 @@ public class FooterPage extends BasePage{
     @FindBy(css = "#link-product-page-prices-drop-1")
     private WebElement pricedDropBtn;
 
-
-
     public FooterPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-
-
 }

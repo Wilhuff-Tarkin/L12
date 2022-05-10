@@ -19,7 +19,6 @@ public class PricesDrop extends TestBase {
     private static final Logger log = LoggerFactory.getLogger("prices drop");
     private static final DecimalFormat df = new DecimalFormat("####.##");
 
-
     @Test
     void verifyPricesDropCategory() {
 
@@ -32,6 +31,7 @@ public class PricesDrop extends TestBase {
 
     @Test
     void verifyPricesDropSingleProduct() {
+        getPricesDropCategory();
         ProductsSectionPage productsOnSale = new ProductsSectionPage(driver);
         ProductMiniatureModel miniatureProduct = productsOnSale.getRandomProduct();
         String productName = miniatureProduct.getName();
@@ -69,7 +69,7 @@ public class PricesDrop extends TestBase {
     }
 
     private void discountTagShouldBePresent(ProductFullPage productPage) {
-        assertThat("Tag isnt there", productPage.getDiscountTag().isDisplayed());
+        assertThat("Tag isn't there", productPage.getDiscountTag().isDisplayed());
     }
 
     private void discountedPricesShouldBe20percentLower() {

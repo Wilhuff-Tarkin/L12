@@ -43,8 +43,6 @@ public class HeaderPage extends BasePage {
     @FindBy(css = ".header a")
     private WebElement openCartBtn;
 
-
-
     @Getter
     @FindBy(css = ".ui-corner-all .product")
     private List<WebElement> dropDown = new ArrayList<>();
@@ -95,7 +93,5 @@ public class HeaderPage extends BasePage {
 
         WebElement randomCategory = getCategoriesLabels().get(random.nextInt(getCategoriesLabels().size()));
         randomCategory.click();
-
     }
-
-    }
+}

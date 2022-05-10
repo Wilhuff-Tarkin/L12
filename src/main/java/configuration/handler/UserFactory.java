@@ -5,8 +5,6 @@ import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import configuration.model.SocialTitle;
 import configuration.model.UserModel;
-
-import java.util.Date;
 import java.util.Locale;
 
 public class UserFactory {
@@ -37,7 +35,8 @@ public class UserFactory {
 
     private static String fakeBirthday(Faker faker) {
         StringBuilder birthday = new StringBuilder();
-        birthday.append(faker.date().birthday().getMonth()).append("/").append(faker.random().nextInt(1, 28)).append("/")
+        int month = faker.date().birthday().getMonth() + 1;
+        birthday.append(month).append("/").append(faker.random().nextInt(1, 28)).append("/")
                 .append(faker.random().nextInt(1930, 2001));
         return String.valueOf(birthday);
     }

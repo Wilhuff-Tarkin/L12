@@ -18,20 +18,13 @@ public class HomePage extends BasePage {
     @Getter
     private ProductsSectionPage productsSectionPage;
 
-
-//    private List<ProductMiniaturePage> productsList = new ArrayList<ProductMiniaturePage>();
-
-
-
-
     public HomePage(WebDriver driver) {
         super(driver);
         productsSectionPage = new ProductsSectionPage(driver);
         PageFactory.initElements(driver, this);
     }
 
-
-    }
+}
 
 
 
